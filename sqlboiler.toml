@@ -1,0 +1,63 @@
+[psql]
+  dbname = "builder"
+  host   = "localhost"
+  port   = 5432
+  user   = "elliott.davis"
+  pass   = ""
+  blacklist = ["migrations", "origin_package_versions", "origins_with_secret_key", "origins_with_stats", "packages_with_channel_platform"]
+  sslmode = "disable"
+
+[aliases.tables.audit_package.relationships.audit_package_origin_fkey]
+# The local side would originally be inferred as AuthorVideos, which
+# is probably good enough to not want to mess around with this feature, avoid it where possible.
+local   = "OriginAP"
+# Even if left unspecified, the foreign side would have been inferred correctly
+# due to the proper naming of the foreign key column.
+foreign = "Origin"
+
+[aliases.tables.audit_package_group.relationships.audit_package_group_origin_fkey]
+local   = "OriginAPG"
+foreign = "Origin"
+
+[aliases.tables.origin_channels.relationships.origin_channels_origin_fkey]
+local   = "OriginOC"
+foreign = "Origin"
+
+[aliases.tables.origin_invitations.relationships.origin_invitations_origin_fkey]
+local   = "OriginOI"
+foreign = "Origin"
+
+[aliases.tables.origin_members.relationships.origin_members_origin_fkey]
+local   = "OriginOM"
+foreign = "Origin"
+
+[aliases.tables.origin_packages.relationships.origin_packages_origin_fkey]
+local   = "OriginOPA"
+foreign = "Origin"
+
+[aliases.tables.origin_private_encryption_keys.relationships.origin_private_encryption_keys_origin_fkey]
+local   = "OriginOPREK"
+foreign = "Origin"
+
+[aliases.tables.origin_projects.relationships.origin_projects_origin_fkey]
+local   = "OriginOPR"
+foreign = "Origin"
+
+
+[aliases.tables.origin_public_encryption_keys.relationships.origin_public_encryption_keys_origin_fkey]
+local   = "OriginOPUEK"
+foreign = "Origin"
+
+
+[aliases.tables.origin_public_keys.relationships.origin_public_keys_origin_fkey]
+local   = "OriginOPK"
+foreign = "Origin"
+
+
+[aliases.tables.origin_secret_keys.relationships.origin_secret_keys_origin_fkey]
+local   = "OriginOSK"
+foreign = "Origin"
+
+[aliases.tables.origin_secrets.relationships.origin_secrets_origin_fkey]
+local   = "OriginOS"
+foreign = "Origin"
