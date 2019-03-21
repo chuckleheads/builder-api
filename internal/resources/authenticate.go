@@ -1,6 +1,7 @@
 package resources
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/go-chi/chi"
@@ -15,4 +16,7 @@ func (ar AuthenticateResource) Routes() chi.Router {
 	return r
 }
 
-func (ar AuthenticateResource) authenticate(w http.ResponseWriter, r *http.Request) {}
+func (ar AuthenticateResource) authenticate(w http.ResponseWriter, r *http.Request) {
+	code := chi.URLParam(r, "code")
+	fmt.Println(code)
+}
