@@ -47,6 +47,7 @@ func init() {
 	viper.SetDefault("datastore.username", "elliott.davis")
 	viper.SetDefault("datastore.password", "")
 	viper.SetDefault("datastore.ssl-mode", "disable")
+	viper.SetDefault("oauth.provider", "github")
 }
 
 // initConfig reads in config file and ENV variables if set.

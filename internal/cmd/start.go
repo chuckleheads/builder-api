@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/chuckleheads/builder-api/internal/oauth"
 	"log"
 	"net/http"
 	"strings"
@@ -40,8 +41,9 @@ func setup() {
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 	db := datastore.New(&config.Datastore)
+	oauthConfig := oauth.New(&config.Oauth)
 
-	r.Mount("/authenticate", resources.AuthenticateResource{}.Routes())
+	r.Mount("/authenticate", resources.NewAuthenticateResource(oauthConfig).Routes())
 	r.Mount("/depot/channels", resources.ChannelResource{}.Routes())
 	r.Mount("/ext", resources.ExtResource{}.Routes())
 	r.Mount("/jobs", resources.JobsResource{}.Routes())
