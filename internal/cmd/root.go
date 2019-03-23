@@ -39,7 +39,7 @@ func init() {
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is /hab/svc/builder-api/config/config.toml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is ./secrets/builder-api.toml)")
 	viper.SetDefault("port", 7001)
 	viper.SetDefault("datastore.host", "localhost")
 	viper.SetDefault("datastore.port", 5432)
@@ -56,7 +56,8 @@ func initConfig() {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		home := filepath.Dir("/hab/svc/builder-api/config")
+		pwd, _ := os.Getwd()
+		home := filepath.Dir(filepath.Join(pwd, "secrets/builder-api.toml"))
 
 		// Search config in home directory with name ".config" (without extension).
 		viper.AddConfigPath(home)
@@ -77,5 +78,6 @@ func ConfigFromViper() (*config.Config, error) {
 	if err := viper.Unmarshal(cfg); err != nil {
 		panic(err.Error())
 	}
+	fmt.Printf("+%v", cfg)
 	return cfg, nil
 }

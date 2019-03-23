@@ -20,6 +20,8 @@ func (ar AuthenticateResource) Routes() chi.Router {
 	r := chi.NewRouter()
 
 	r.Get("/{code}", ar.authenticate)
+	// This is a helper route for fetching a code to test the redirect
+	r.Get("/get-code", ar.getCode)
 	return r
 }
 
@@ -32,4 +34,8 @@ func (ar AuthenticateResource) authenticate(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	render.PlainText(w, r, token.AccessToken)
+}
+
+func (ar AuthenticateResource) getCode(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, ar.oauth.AuthCodeURL("poopydoodles", oauth2.AccessTypeOffline), http.StatusTemporaryRedirect)
 }
