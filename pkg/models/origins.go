@@ -24,11 +24,11 @@ import (
 
 // Origin is an object representing the database table.
 type Origin struct {
-	Name                     string     `boil:"name" json:"name" toml:"name" yaml:"name"`
-	OwnerID                  null.Int64 `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
-	CreatedAt                null.Time  `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
-	UpdatedAt                null.Time  `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
-	DefaultPackageVisibility string     `boil:"default_package_visibility" json:"default_package_visibility" toml:"default_package_visibility" yaml:"default_package_visibility"`
+	Name                     string    `boil:"name" json:"name" toml:"name" yaml:"name"`
+	OwnerID                  int64     `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
+	CreatedAt                null.Time `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
+	UpdatedAt                null.Time `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
+	DefaultPackageVisibility string    `boil:"default_package_visibility" json:"default_package_visibility" toml:"default_package_visibility" yaml:"default_package_visibility"`
 
 	R *originR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L originL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -52,13 +52,13 @@ var OriginColumns = struct {
 
 var OriginWhere = struct {
 	Name                     whereHelperstring
-	OwnerID                  whereHelpernull_Int64
+	OwnerID                  whereHelperint64
 	CreatedAt                whereHelpernull_Time
 	UpdatedAt                whereHelpernull_Time
 	DefaultPackageVisibility whereHelperstring
 }{
 	Name:                     whereHelperstring{field: `name`},
-	OwnerID:                  whereHelpernull_Int64{field: `owner_id`},
+	OwnerID:                  whereHelperint64{field: `owner_id`},
 	CreatedAt:                whereHelpernull_Time{field: `created_at`},
 	UpdatedAt:                whereHelpernull_Time{field: `updated_at`},
 	DefaultPackageVisibility: whereHelperstring{field: `default_package_visibility`},
@@ -399,7 +399,7 @@ func (q originQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (boo
 	return count > 0, nil
 }
 
-// OriginAP retrieves all the audit_package's AuditPackages with an executor via origin_name column.
+// OriginAP retrieves all the audit_package's AuditPackages with an executor via origin column.
 func (o *Origin) OriginAP(mods ...qm.QueryMod) auditPackageQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -407,7 +407,7 @@ func (o *Origin) OriginAP(mods ...qm.QueryMod) auditPackageQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"audit_package\".\"origin_name\"=?", o.Name),
+		qm.Where("\"audit_package\".\"origin\"=?", o.Name),
 	)
 
 	query := AuditPackages(queryMods...)
@@ -420,7 +420,7 @@ func (o *Origin) OriginAP(mods ...qm.QueryMod) auditPackageQuery {
 	return query
 }
 
-// OriginAPG retrieves all the audit_package_group's AuditPackageGroups with an executor via origin_name column.
+// OriginAPG retrieves all the audit_package_group's AuditPackageGroups with an executor via origin column.
 func (o *Origin) OriginAPG(mods ...qm.QueryMod) auditPackageGroupQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -428,7 +428,7 @@ func (o *Origin) OriginAPG(mods ...qm.QueryMod) auditPackageGroupQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"audit_package_group\".\"origin_name\"=?", o.Name),
+		qm.Where("\"audit_package_group\".\"origin\"=?", o.Name),
 	)
 
 	query := AuditPackageGroups(queryMods...)
@@ -441,7 +441,7 @@ func (o *Origin) OriginAPG(mods ...qm.QueryMod) auditPackageGroupQuery {
 	return query
 }
 
-// OriginOC retrieves all the origin_channel's OriginChannels with an executor via origin_name column.
+// OriginOC retrieves all the origin_channel's OriginChannels with an executor via origin column.
 func (o *Origin) OriginOC(mods ...qm.QueryMod) originChannelQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -449,7 +449,7 @@ func (o *Origin) OriginOC(mods ...qm.QueryMod) originChannelQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_channels\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_channels\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginChannels(queryMods...)
@@ -462,7 +462,7 @@ func (o *Origin) OriginOC(mods ...qm.QueryMod) originChannelQuery {
 	return query
 }
 
-// OriginOI retrieves all the origin_invitation's OriginInvitations with an executor via origin_name column.
+// OriginOI retrieves all the origin_invitation's OriginInvitations with an executor via origin column.
 func (o *Origin) OriginOI(mods ...qm.QueryMod) originInvitationQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -470,7 +470,7 @@ func (o *Origin) OriginOI(mods ...qm.QueryMod) originInvitationQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_invitations\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_invitations\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginInvitations(queryMods...)
@@ -483,7 +483,7 @@ func (o *Origin) OriginOI(mods ...qm.QueryMod) originInvitationQuery {
 	return query
 }
 
-// OriginOM retrieves all the origin_member's OriginMembers with an executor via origin_name column.
+// OriginOM retrieves all the origin_member's OriginMembers with an executor via origin column.
 func (o *Origin) OriginOM(mods ...qm.QueryMod) originMemberQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -491,7 +491,7 @@ func (o *Origin) OriginOM(mods ...qm.QueryMod) originMemberQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_members\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_members\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginMembers(queryMods...)
@@ -504,7 +504,7 @@ func (o *Origin) OriginOM(mods ...qm.QueryMod) originMemberQuery {
 	return query
 }
 
-// OriginOPA retrieves all the origin_package's OriginPackages with an executor via origin_name column.
+// OriginOPA retrieves all the origin_package's OriginPackages with an executor via origin column.
 func (o *Origin) OriginOPA(mods ...qm.QueryMod) originPackageQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -512,7 +512,7 @@ func (o *Origin) OriginOPA(mods ...qm.QueryMod) originPackageQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_packages\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_packages\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginPackages(queryMods...)
@@ -525,7 +525,7 @@ func (o *Origin) OriginOPA(mods ...qm.QueryMod) originPackageQuery {
 	return query
 }
 
-// OriginOPREK retrieves all the origin_private_encryption_key's OriginPrivateEncryptionKeys with an executor via origin_name column.
+// OriginOPREK retrieves all the origin_private_encryption_key's OriginPrivateEncryptionKeys with an executor via origin column.
 func (o *Origin) OriginOPREK(mods ...qm.QueryMod) originPrivateEncryptionKeyQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -533,7 +533,7 @@ func (o *Origin) OriginOPREK(mods ...qm.QueryMod) originPrivateEncryptionKeyQuer
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_private_encryption_keys\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_private_encryption_keys\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginPrivateEncryptionKeys(queryMods...)
@@ -546,7 +546,7 @@ func (o *Origin) OriginOPREK(mods ...qm.QueryMod) originPrivateEncryptionKeyQuer
 	return query
 }
 
-// OriginOPR retrieves all the origin_project's OriginProjects with an executor via origin_name column.
+// OriginOPR retrieves all the origin_project's OriginProjects with an executor via origin column.
 func (o *Origin) OriginOPR(mods ...qm.QueryMod) originProjectQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -554,7 +554,7 @@ func (o *Origin) OriginOPR(mods ...qm.QueryMod) originProjectQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_projects\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_projects\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginProjects(queryMods...)
@@ -567,7 +567,7 @@ func (o *Origin) OriginOPR(mods ...qm.QueryMod) originProjectQuery {
 	return query
 }
 
-// OriginOPUEK retrieves all the origin_public_encryption_key's OriginPublicEncryptionKeys with an executor via origin_name column.
+// OriginOPUEK retrieves all the origin_public_encryption_key's OriginPublicEncryptionKeys with an executor via origin column.
 func (o *Origin) OriginOPUEK(mods ...qm.QueryMod) originPublicEncryptionKeyQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -575,7 +575,7 @@ func (o *Origin) OriginOPUEK(mods ...qm.QueryMod) originPublicEncryptionKeyQuery
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_public_encryption_keys\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_public_encryption_keys\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginPublicEncryptionKeys(queryMods...)
@@ -588,7 +588,7 @@ func (o *Origin) OriginOPUEK(mods ...qm.QueryMod) originPublicEncryptionKeyQuery
 	return query
 }
 
-// OriginOPK retrieves all the origin_public_key's OriginPublicKeys with an executor via origin_name column.
+// OriginOPK retrieves all the origin_public_key's OriginPublicKeys with an executor via origin column.
 func (o *Origin) OriginOPK(mods ...qm.QueryMod) originPublicKeyQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -596,7 +596,7 @@ func (o *Origin) OriginOPK(mods ...qm.QueryMod) originPublicKeyQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_public_keys\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_public_keys\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginPublicKeys(queryMods...)
@@ -609,7 +609,7 @@ func (o *Origin) OriginOPK(mods ...qm.QueryMod) originPublicKeyQuery {
 	return query
 }
 
-// OriginOSK retrieves all the origin_secret_key's OriginSecretKeys with an executor via origin_name column.
+// OriginOSK retrieves all the origin_secret_key's OriginSecretKeys with an executor via origin column.
 func (o *Origin) OriginOSK(mods ...qm.QueryMod) originSecretKeyQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -617,7 +617,7 @@ func (o *Origin) OriginOSK(mods ...qm.QueryMod) originSecretKeyQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_secret_keys\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_secret_keys\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginSecretKeys(queryMods...)
@@ -630,7 +630,7 @@ func (o *Origin) OriginOSK(mods ...qm.QueryMod) originSecretKeyQuery {
 	return query
 }
 
-// OriginOS retrieves all the origin_secret's OriginSecrets with an executor via origin_name column.
+// OriginOS retrieves all the origin_secret's OriginSecrets with an executor via origin column.
 func (o *Origin) OriginOS(mods ...qm.QueryMod) originSecretQuery {
 	var queryMods []qm.QueryMod
 	if len(mods) != 0 {
@@ -638,7 +638,7 @@ func (o *Origin) OriginOS(mods ...qm.QueryMod) originSecretQuery {
 	}
 
 	queryMods = append(queryMods,
-		qm.Where("\"origin_secrets\".\"origin_name\"=?", o.Name),
+		qm.Where("\"origin_secrets\".\"origin\"=?", o.Name),
 	)
 
 	query := OriginSecrets(queryMods...)
@@ -690,7 +690,7 @@ func (originL) LoadOriginAP(ctx context.Context, e boil.ContextExecutor, singula
 		return nil
 	}
 
-	query := NewQuery(qm.From(`audit_package`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`audit_package`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -725,19 +725,19 @@ func (originL) LoadOriginAP(ctx context.Context, e boil.ContextExecutor, singula
 			if foreign.R == nil {
 				foreign.R = &auditPackageR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginAP = append(local.R.OriginAP, foreign)
 				if foreign.R == nil {
 					foreign.R = &auditPackageR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -785,7 +785,7 @@ func (originL) LoadOriginAPG(ctx context.Context, e boil.ContextExecutor, singul
 		return nil
 	}
 
-	query := NewQuery(qm.From(`audit_package_group`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`audit_package_group`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -820,19 +820,19 @@ func (originL) LoadOriginAPG(ctx context.Context, e boil.ContextExecutor, singul
 			if foreign.R == nil {
 				foreign.R = &auditPackageGroupR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginAPG = append(local.R.OriginAPG, foreign)
 				if foreign.R == nil {
 					foreign.R = &auditPackageGroupR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -880,7 +880,7 @@ func (originL) LoadOriginOC(ctx context.Context, e boil.ContextExecutor, singula
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_channels`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_channels`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -915,19 +915,19 @@ func (originL) LoadOriginOC(ctx context.Context, e boil.ContextExecutor, singula
 			if foreign.R == nil {
 				foreign.R = &originChannelR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOC = append(local.R.OriginOC, foreign)
 				if foreign.R == nil {
 					foreign.R = &originChannelR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -975,7 +975,7 @@ func (originL) LoadOriginOI(ctx context.Context, e boil.ContextExecutor, singula
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_invitations`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_invitations`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1010,19 +1010,19 @@ func (originL) LoadOriginOI(ctx context.Context, e boil.ContextExecutor, singula
 			if foreign.R == nil {
 				foreign.R = &originInvitationR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOI = append(local.R.OriginOI, foreign)
 				if foreign.R == nil {
 					foreign.R = &originInvitationR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1070,7 +1070,7 @@ func (originL) LoadOriginOM(ctx context.Context, e boil.ContextExecutor, singula
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_members`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_members`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1105,19 +1105,19 @@ func (originL) LoadOriginOM(ctx context.Context, e boil.ContextExecutor, singula
 			if foreign.R == nil {
 				foreign.R = &originMemberR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOM = append(local.R.OriginOM, foreign)
 				if foreign.R == nil {
 					foreign.R = &originMemberR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1165,7 +1165,7 @@ func (originL) LoadOriginOPA(ctx context.Context, e boil.ContextExecutor, singul
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_packages`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_packages`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1200,19 +1200,19 @@ func (originL) LoadOriginOPA(ctx context.Context, e boil.ContextExecutor, singul
 			if foreign.R == nil {
 				foreign.R = &originPackageR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOPA = append(local.R.OriginOPA, foreign)
 				if foreign.R == nil {
 					foreign.R = &originPackageR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1260,7 +1260,7 @@ func (originL) LoadOriginOPREK(ctx context.Context, e boil.ContextExecutor, sing
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_private_encryption_keys`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_private_encryption_keys`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1295,19 +1295,19 @@ func (originL) LoadOriginOPREK(ctx context.Context, e boil.ContextExecutor, sing
 			if foreign.R == nil {
 				foreign.R = &originPrivateEncryptionKeyR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOPREK = append(local.R.OriginOPREK, foreign)
 				if foreign.R == nil {
 					foreign.R = &originPrivateEncryptionKeyR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1355,7 +1355,7 @@ func (originL) LoadOriginOPR(ctx context.Context, e boil.ContextExecutor, singul
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_projects`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_projects`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1390,19 +1390,19 @@ func (originL) LoadOriginOPR(ctx context.Context, e boil.ContextExecutor, singul
 			if foreign.R == nil {
 				foreign.R = &originProjectR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOPR = append(local.R.OriginOPR, foreign)
 				if foreign.R == nil {
 					foreign.R = &originProjectR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1450,7 +1450,7 @@ func (originL) LoadOriginOPUEK(ctx context.Context, e boil.ContextExecutor, sing
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_public_encryption_keys`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_public_encryption_keys`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1485,19 +1485,19 @@ func (originL) LoadOriginOPUEK(ctx context.Context, e boil.ContextExecutor, sing
 			if foreign.R == nil {
 				foreign.R = &originPublicEncryptionKeyR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOPUEK = append(local.R.OriginOPUEK, foreign)
 				if foreign.R == nil {
 					foreign.R = &originPublicEncryptionKeyR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1545,7 +1545,7 @@ func (originL) LoadOriginOPK(ctx context.Context, e boil.ContextExecutor, singul
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_public_keys`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_public_keys`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1580,19 +1580,19 @@ func (originL) LoadOriginOPK(ctx context.Context, e boil.ContextExecutor, singul
 			if foreign.R == nil {
 				foreign.R = &originPublicKeyR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOPK = append(local.R.OriginOPK, foreign)
 				if foreign.R == nil {
 					foreign.R = &originPublicKeyR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1640,7 +1640,7 @@ func (originL) LoadOriginOSK(ctx context.Context, e boil.ContextExecutor, singul
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_secret_keys`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_secret_keys`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1675,19 +1675,19 @@ func (originL) LoadOriginOSK(ctx context.Context, e boil.ContextExecutor, singul
 			if foreign.R == nil {
 				foreign.R = &originSecretKeyR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOSK = append(local.R.OriginOSK, foreign)
 				if foreign.R == nil {
 					foreign.R = &originSecretKeyR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1735,7 +1735,7 @@ func (originL) LoadOriginOS(ctx context.Context, e boil.ContextExecutor, singula
 		return nil
 	}
 
-	query := NewQuery(qm.From(`origin_secrets`), qm.WhereIn(`origin_name in ?`, args...))
+	query := NewQuery(qm.From(`origin_secrets`), qm.WhereIn(`origin in ?`, args...))
 	if mods != nil {
 		mods.Apply(query)
 	}
@@ -1770,19 +1770,19 @@ func (originL) LoadOriginOS(ctx context.Context, e boil.ContextExecutor, singula
 			if foreign.R == nil {
 				foreign.R = &originSecretR{}
 			}
-			foreign.R.Origin = object
+			foreign.R.OriginName = object
 		}
 		return nil
 	}
 
 	for _, foreign := range resultSlice {
 		for _, local := range slice {
-			if queries.Equal(local.Name, foreign.OriginName) {
+			if queries.Equal(local.Name, foreign.Origin) {
 				local.R.OriginOS = append(local.R.OriginOS, foreign)
 				if foreign.R == nil {
 					foreign.R = &originSecretR{}
 				}
-				foreign.R.Origin = local
+				foreign.R.OriginName = local
 				break
 			}
 		}
@@ -1794,19 +1794,19 @@ func (originL) LoadOriginOS(ctx context.Context, e boil.ContextExecutor, singula
 // AddOriginAP adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginAP.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginAP(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*AuditPackage) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"audit_package\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, auditPackagePrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -1820,7 +1820,7 @@ func (o *Origin) AddOriginAP(ctx context.Context, exec boil.ContextExecutor, ins
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -1835,10 +1835,10 @@ func (o *Origin) AddOriginAP(ctx context.Context, exec boil.ContextExecutor, ins
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &auditPackageR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -1847,11 +1847,11 @@ func (o *Origin) AddOriginAP(ctx context.Context, exec boil.ContextExecutor, ins
 // SetOriginAP removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginAP accordingly.
+// Sets o.R.OriginName's OriginAP accordingly.
 // Replaces o.R.OriginAP with related.
-// Sets related.R.Origin's OriginAP accordingly.
+// Sets related.R.OriginName's OriginAP accordingly.
 func (o *Origin) SetOriginAP(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*AuditPackage) error {
-	query := "update \"audit_package\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"audit_package\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -1865,12 +1865,12 @@ func (o *Origin) SetOriginAP(ctx context.Context, exec boil.ContextExecutor, ins
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginAP {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginAP = nil
@@ -1880,15 +1880,15 @@ func (o *Origin) SetOriginAP(ctx context.Context, exec boil.ContextExecutor, ins
 
 // RemoveOriginAP relationships from objects passed in.
 // Removes related items from R.OriginAP (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginAP(ctx context.Context, exec boil.ContextExecutor, related ...*AuditPackage) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -1917,19 +1917,19 @@ func (o *Origin) RemoveOriginAP(ctx context.Context, exec boil.ContextExecutor, 
 // AddOriginAPG adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginAPG.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginAPG(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*AuditPackageGroup) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"audit_package_group\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, auditPackageGroupPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -1943,7 +1943,7 @@ func (o *Origin) AddOriginAPG(ctx context.Context, exec boil.ContextExecutor, in
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -1958,10 +1958,10 @@ func (o *Origin) AddOriginAPG(ctx context.Context, exec boil.ContextExecutor, in
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &auditPackageGroupR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -1970,11 +1970,11 @@ func (o *Origin) AddOriginAPG(ctx context.Context, exec boil.ContextExecutor, in
 // SetOriginAPG removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginAPG accordingly.
+// Sets o.R.OriginName's OriginAPG accordingly.
 // Replaces o.R.OriginAPG with related.
-// Sets related.R.Origin's OriginAPG accordingly.
+// Sets related.R.OriginName's OriginAPG accordingly.
 func (o *Origin) SetOriginAPG(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*AuditPackageGroup) error {
-	query := "update \"audit_package_group\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"audit_package_group\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -1988,12 +1988,12 @@ func (o *Origin) SetOriginAPG(ctx context.Context, exec boil.ContextExecutor, in
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginAPG {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginAPG = nil
@@ -2003,15 +2003,15 @@ func (o *Origin) SetOriginAPG(ctx context.Context, exec boil.ContextExecutor, in
 
 // RemoveOriginAPG relationships from objects passed in.
 // Removes related items from R.OriginAPG (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginAPG(ctx context.Context, exec boil.ContextExecutor, related ...*AuditPackageGroup) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2040,19 +2040,19 @@ func (o *Origin) RemoveOriginAPG(ctx context.Context, exec boil.ContextExecutor,
 // AddOriginOC adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOC.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOC(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginChannel) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_channels\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originChannelPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2066,7 +2066,7 @@ func (o *Origin) AddOriginOC(ctx context.Context, exec boil.ContextExecutor, ins
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2081,10 +2081,10 @@ func (o *Origin) AddOriginOC(ctx context.Context, exec boil.ContextExecutor, ins
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originChannelR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2093,11 +2093,11 @@ func (o *Origin) AddOriginOC(ctx context.Context, exec boil.ContextExecutor, ins
 // SetOriginOC removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOC accordingly.
+// Sets o.R.OriginName's OriginOC accordingly.
 // Replaces o.R.OriginOC with related.
-// Sets related.R.Origin's OriginOC accordingly.
+// Sets related.R.OriginName's OriginOC accordingly.
 func (o *Origin) SetOriginOC(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginChannel) error {
-	query := "update \"origin_channels\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_channels\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2111,12 +2111,12 @@ func (o *Origin) SetOriginOC(ctx context.Context, exec boil.ContextExecutor, ins
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOC {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOC = nil
@@ -2126,15 +2126,15 @@ func (o *Origin) SetOriginOC(ctx context.Context, exec boil.ContextExecutor, ins
 
 // RemoveOriginOC relationships from objects passed in.
 // Removes related items from R.OriginOC (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOC(ctx context.Context, exec boil.ContextExecutor, related ...*OriginChannel) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2163,19 +2163,19 @@ func (o *Origin) RemoveOriginOC(ctx context.Context, exec boil.ContextExecutor, 
 // AddOriginOI adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOI.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOI(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginInvitation) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_invitations\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originInvitationPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2189,7 +2189,7 @@ func (o *Origin) AddOriginOI(ctx context.Context, exec boil.ContextExecutor, ins
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2204,10 +2204,10 @@ func (o *Origin) AddOriginOI(ctx context.Context, exec boil.ContextExecutor, ins
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originInvitationR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2216,11 +2216,11 @@ func (o *Origin) AddOriginOI(ctx context.Context, exec boil.ContextExecutor, ins
 // SetOriginOI removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOI accordingly.
+// Sets o.R.OriginName's OriginOI accordingly.
 // Replaces o.R.OriginOI with related.
-// Sets related.R.Origin's OriginOI accordingly.
+// Sets related.R.OriginName's OriginOI accordingly.
 func (o *Origin) SetOriginOI(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginInvitation) error {
-	query := "update \"origin_invitations\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_invitations\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2234,12 +2234,12 @@ func (o *Origin) SetOriginOI(ctx context.Context, exec boil.ContextExecutor, ins
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOI {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOI = nil
@@ -2249,15 +2249,15 @@ func (o *Origin) SetOriginOI(ctx context.Context, exec boil.ContextExecutor, ins
 
 // RemoveOriginOI relationships from objects passed in.
 // Removes related items from R.OriginOI (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOI(ctx context.Context, exec boil.ContextExecutor, related ...*OriginInvitation) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2286,19 +2286,19 @@ func (o *Origin) RemoveOriginOI(ctx context.Context, exec boil.ContextExecutor, 
 // AddOriginOM adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOM.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOM(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginMember) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_members\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originMemberPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2312,7 +2312,7 @@ func (o *Origin) AddOriginOM(ctx context.Context, exec boil.ContextExecutor, ins
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2327,10 +2327,10 @@ func (o *Origin) AddOriginOM(ctx context.Context, exec boil.ContextExecutor, ins
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originMemberR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2339,11 +2339,11 @@ func (o *Origin) AddOriginOM(ctx context.Context, exec boil.ContextExecutor, ins
 // SetOriginOM removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOM accordingly.
+// Sets o.R.OriginName's OriginOM accordingly.
 // Replaces o.R.OriginOM with related.
-// Sets related.R.Origin's OriginOM accordingly.
+// Sets related.R.OriginName's OriginOM accordingly.
 func (o *Origin) SetOriginOM(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginMember) error {
-	query := "update \"origin_members\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_members\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2357,12 +2357,12 @@ func (o *Origin) SetOriginOM(ctx context.Context, exec boil.ContextExecutor, ins
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOM {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOM = nil
@@ -2372,15 +2372,15 @@ func (o *Origin) SetOriginOM(ctx context.Context, exec boil.ContextExecutor, ins
 
 // RemoveOriginOM relationships from objects passed in.
 // Removes related items from R.OriginOM (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOM(ctx context.Context, exec boil.ContextExecutor, related ...*OriginMember) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2409,19 +2409,19 @@ func (o *Origin) RemoveOriginOM(ctx context.Context, exec boil.ContextExecutor, 
 // AddOriginOPA adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOPA.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOPA(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPackage) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_packages\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originPackagePrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2435,7 +2435,7 @@ func (o *Origin) AddOriginOPA(ctx context.Context, exec boil.ContextExecutor, in
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2450,10 +2450,10 @@ func (o *Origin) AddOriginOPA(ctx context.Context, exec boil.ContextExecutor, in
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originPackageR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2462,11 +2462,11 @@ func (o *Origin) AddOriginOPA(ctx context.Context, exec boil.ContextExecutor, in
 // SetOriginOPA removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOPA accordingly.
+// Sets o.R.OriginName's OriginOPA accordingly.
 // Replaces o.R.OriginOPA with related.
-// Sets related.R.Origin's OriginOPA accordingly.
+// Sets related.R.OriginName's OriginOPA accordingly.
 func (o *Origin) SetOriginOPA(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPackage) error {
-	query := "update \"origin_packages\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_packages\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2480,12 +2480,12 @@ func (o *Origin) SetOriginOPA(ctx context.Context, exec boil.ContextExecutor, in
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOPA {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOPA = nil
@@ -2495,15 +2495,15 @@ func (o *Origin) SetOriginOPA(ctx context.Context, exec boil.ContextExecutor, in
 
 // RemoveOriginOPA relationships from objects passed in.
 // Removes related items from R.OriginOPA (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOPA(ctx context.Context, exec boil.ContextExecutor, related ...*OriginPackage) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2532,19 +2532,19 @@ func (o *Origin) RemoveOriginOPA(ctx context.Context, exec boil.ContextExecutor,
 // AddOriginOPREK adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOPREK.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOPREK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPrivateEncryptionKey) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_private_encryption_keys\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originPrivateEncryptionKeyPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2558,7 +2558,7 @@ func (o *Origin) AddOriginOPREK(ctx context.Context, exec boil.ContextExecutor, 
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2573,10 +2573,10 @@ func (o *Origin) AddOriginOPREK(ctx context.Context, exec boil.ContextExecutor, 
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originPrivateEncryptionKeyR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2585,11 +2585,11 @@ func (o *Origin) AddOriginOPREK(ctx context.Context, exec boil.ContextExecutor, 
 // SetOriginOPREK removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOPREK accordingly.
+// Sets o.R.OriginName's OriginOPREK accordingly.
 // Replaces o.R.OriginOPREK with related.
-// Sets related.R.Origin's OriginOPREK accordingly.
+// Sets related.R.OriginName's OriginOPREK accordingly.
 func (o *Origin) SetOriginOPREK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPrivateEncryptionKey) error {
-	query := "update \"origin_private_encryption_keys\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_private_encryption_keys\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2603,12 +2603,12 @@ func (o *Origin) SetOriginOPREK(ctx context.Context, exec boil.ContextExecutor, 
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOPREK {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOPREK = nil
@@ -2618,15 +2618,15 @@ func (o *Origin) SetOriginOPREK(ctx context.Context, exec boil.ContextExecutor, 
 
 // RemoveOriginOPREK relationships from objects passed in.
 // Removes related items from R.OriginOPREK (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOPREK(ctx context.Context, exec boil.ContextExecutor, related ...*OriginPrivateEncryptionKey) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2655,19 +2655,19 @@ func (o *Origin) RemoveOriginOPREK(ctx context.Context, exec boil.ContextExecuto
 // AddOriginOPR adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOPR.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOPR(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginProject) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_projects\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originProjectPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2681,7 +2681,7 @@ func (o *Origin) AddOriginOPR(ctx context.Context, exec boil.ContextExecutor, in
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2696,10 +2696,10 @@ func (o *Origin) AddOriginOPR(ctx context.Context, exec boil.ContextExecutor, in
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originProjectR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2708,11 +2708,11 @@ func (o *Origin) AddOriginOPR(ctx context.Context, exec boil.ContextExecutor, in
 // SetOriginOPR removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOPR accordingly.
+// Sets o.R.OriginName's OriginOPR accordingly.
 // Replaces o.R.OriginOPR with related.
-// Sets related.R.Origin's OriginOPR accordingly.
+// Sets related.R.OriginName's OriginOPR accordingly.
 func (o *Origin) SetOriginOPR(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginProject) error {
-	query := "update \"origin_projects\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_projects\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2726,12 +2726,12 @@ func (o *Origin) SetOriginOPR(ctx context.Context, exec boil.ContextExecutor, in
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOPR {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOPR = nil
@@ -2741,15 +2741,15 @@ func (o *Origin) SetOriginOPR(ctx context.Context, exec boil.ContextExecutor, in
 
 // RemoveOriginOPR relationships from objects passed in.
 // Removes related items from R.OriginOPR (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOPR(ctx context.Context, exec boil.ContextExecutor, related ...*OriginProject) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2778,19 +2778,19 @@ func (o *Origin) RemoveOriginOPR(ctx context.Context, exec boil.ContextExecutor,
 // AddOriginOPUEK adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOPUEK.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPublicEncryptionKey) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_public_encryption_keys\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originPublicEncryptionKeyPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2804,7 +2804,7 @@ func (o *Origin) AddOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, 
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2819,10 +2819,10 @@ func (o *Origin) AddOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, 
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originPublicEncryptionKeyR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2831,11 +2831,11 @@ func (o *Origin) AddOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, 
 // SetOriginOPUEK removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOPUEK accordingly.
+// Sets o.R.OriginName's OriginOPUEK accordingly.
 // Replaces o.R.OriginOPUEK with related.
-// Sets related.R.Origin's OriginOPUEK accordingly.
+// Sets related.R.OriginName's OriginOPUEK accordingly.
 func (o *Origin) SetOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPublicEncryptionKey) error {
-	query := "update \"origin_public_encryption_keys\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_public_encryption_keys\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2849,12 +2849,12 @@ func (o *Origin) SetOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, 
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOPUEK {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOPUEK = nil
@@ -2864,15 +2864,15 @@ func (o *Origin) SetOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, 
 
 // RemoveOriginOPUEK relationships from objects passed in.
 // Removes related items from R.OriginOPUEK (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOPUEK(ctx context.Context, exec boil.ContextExecutor, related ...*OriginPublicEncryptionKey) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -2901,19 +2901,19 @@ func (o *Origin) RemoveOriginOPUEK(ctx context.Context, exec boil.ContextExecuto
 // AddOriginOPK adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOPK.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOPK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPublicKey) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_public_keys\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originPublicKeyPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -2927,7 +2927,7 @@ func (o *Origin) AddOriginOPK(ctx context.Context, exec boil.ContextExecutor, in
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -2942,10 +2942,10 @@ func (o *Origin) AddOriginOPK(ctx context.Context, exec boil.ContextExecutor, in
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originPublicKeyR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -2954,11 +2954,11 @@ func (o *Origin) AddOriginOPK(ctx context.Context, exec boil.ContextExecutor, in
 // SetOriginOPK removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOPK accordingly.
+// Sets o.R.OriginName's OriginOPK accordingly.
 // Replaces o.R.OriginOPK with related.
-// Sets related.R.Origin's OriginOPK accordingly.
+// Sets related.R.OriginName's OriginOPK accordingly.
 func (o *Origin) SetOriginOPK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginPublicKey) error {
-	query := "update \"origin_public_keys\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_public_keys\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -2972,12 +2972,12 @@ func (o *Origin) SetOriginOPK(ctx context.Context, exec boil.ContextExecutor, in
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOPK {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOPK = nil
@@ -2987,15 +2987,15 @@ func (o *Origin) SetOriginOPK(ctx context.Context, exec boil.ContextExecutor, in
 
 // RemoveOriginOPK relationships from objects passed in.
 // Removes related items from R.OriginOPK (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOPK(ctx context.Context, exec boil.ContextExecutor, related ...*OriginPublicKey) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -3024,19 +3024,19 @@ func (o *Origin) RemoveOriginOPK(ctx context.Context, exec boil.ContextExecutor,
 // AddOriginOSK adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOSK.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOSK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginSecretKey) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_secret_keys\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originSecretKeyPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -3050,7 +3050,7 @@ func (o *Origin) AddOriginOSK(ctx context.Context, exec boil.ContextExecutor, in
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -3065,10 +3065,10 @@ func (o *Origin) AddOriginOSK(ctx context.Context, exec boil.ContextExecutor, in
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originSecretKeyR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -3077,11 +3077,11 @@ func (o *Origin) AddOriginOSK(ctx context.Context, exec boil.ContextExecutor, in
 // SetOriginOSK removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOSK accordingly.
+// Sets o.R.OriginName's OriginOSK accordingly.
 // Replaces o.R.OriginOSK with related.
-// Sets related.R.Origin's OriginOSK accordingly.
+// Sets related.R.OriginName's OriginOSK accordingly.
 func (o *Origin) SetOriginOSK(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginSecretKey) error {
-	query := "update \"origin_secret_keys\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_secret_keys\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -3095,12 +3095,12 @@ func (o *Origin) SetOriginOSK(ctx context.Context, exec boil.ContextExecutor, in
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOSK {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOSK = nil
@@ -3110,15 +3110,15 @@ func (o *Origin) SetOriginOSK(ctx context.Context, exec boil.ContextExecutor, in
 
 // RemoveOriginOSK relationships from objects passed in.
 // Removes related items from R.OriginOSK (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOSK(ctx context.Context, exec boil.ContextExecutor, related ...*OriginSecretKey) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}
@@ -3147,19 +3147,19 @@ func (o *Origin) RemoveOriginOSK(ctx context.Context, exec boil.ContextExecutor,
 // AddOriginOS adds the given related objects to the existing relationships
 // of the origin, optionally inserting them as new records.
 // Appends related to o.R.OriginOS.
-// Sets related.R.Origin appropriately.
+// Sets related.R.OriginName appropriately.
 func (o *Origin) AddOriginOS(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginSecret) error {
 	var err error
 	for _, rel := range related {
 		if insert {
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
 				return errors.Wrap(err, "failed to insert into foreign table")
 			}
 		} else {
 			updateQuery := fmt.Sprintf(
 				"UPDATE \"origin_secrets\" SET %s WHERE %s",
-				strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+				strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 				strmangle.WhereClause("\"", "\"", 2, originSecretPrimaryKeyColumns),
 			)
 			values := []interface{}{o.Name, rel.ID}
@@ -3173,7 +3173,7 @@ func (o *Origin) AddOriginOS(ctx context.Context, exec boil.ContextExecutor, ins
 				return errors.Wrap(err, "failed to update foreign table")
 			}
 
-			queries.Assign(&rel.OriginName, o.Name)
+			queries.Assign(&rel.Origin, o.Name)
 		}
 	}
 
@@ -3188,10 +3188,10 @@ func (o *Origin) AddOriginOS(ctx context.Context, exec boil.ContextExecutor, ins
 	for _, rel := range related {
 		if rel.R == nil {
 			rel.R = &originSecretR{
-				Origin: o,
+				OriginName: o,
 			}
 		} else {
-			rel.R.Origin = o
+			rel.R.OriginName = o
 		}
 	}
 	return nil
@@ -3200,11 +3200,11 @@ func (o *Origin) AddOriginOS(ctx context.Context, exec boil.ContextExecutor, ins
 // SetOriginOS removes all previously related items of the
 // origin replacing them completely with the passed
 // in related items, optionally inserting them as new records.
-// Sets o.R.Origin's OriginOS accordingly.
+// Sets o.R.OriginName's OriginOS accordingly.
 // Replaces o.R.OriginOS with related.
-// Sets related.R.Origin's OriginOS accordingly.
+// Sets related.R.OriginName's OriginOS accordingly.
 func (o *Origin) SetOriginOS(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*OriginSecret) error {
-	query := "update \"origin_secrets\" set \"origin_name\" = null where \"origin_name\" = $1"
+	query := "update \"origin_secrets\" set \"origin\" = null where \"origin\" = $1"
 	values := []interface{}{o.Name}
 	if boil.DebugMode {
 		fmt.Fprintln(boil.DebugWriter, query)
@@ -3218,12 +3218,12 @@ func (o *Origin) SetOriginOS(ctx context.Context, exec boil.ContextExecutor, ins
 
 	if o.R != nil {
 		for _, rel := range o.R.OriginOS {
-			queries.SetScanner(&rel.OriginName, nil)
+			queries.SetScanner(&rel.Origin, nil)
 			if rel.R == nil {
 				continue
 			}
 
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
 
 		o.R.OriginOS = nil
@@ -3233,15 +3233,15 @@ func (o *Origin) SetOriginOS(ctx context.Context, exec boil.ContextExecutor, ins
 
 // RemoveOriginOS relationships from objects passed in.
 // Removes related items from R.OriginOS (uses pointer comparison, removal does not keep order)
-// Sets related.R.Origin.
+// Sets related.R.OriginName.
 func (o *Origin) RemoveOriginOS(ctx context.Context, exec boil.ContextExecutor, related ...*OriginSecret) error {
 	var err error
 	for _, rel := range related {
-		queries.SetScanner(&rel.OriginName, nil)
+		queries.SetScanner(&rel.Origin, nil)
 		if rel.R != nil {
-			rel.R.Origin = nil
+			rel.R.OriginName = nil
 		}
-		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 			return err
 		}
 	}

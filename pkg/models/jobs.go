@@ -26,11 +26,11 @@ import (
 // Job is an object representing the database table.
 type Job struct {
 	ID              int64             `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OwnerID         null.Int64        `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
+	OwnerID         int64             `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
 	JobState        null.String       `boil:"job_state" json:"job_state,omitempty" toml:"job_state" yaml:"job_state,omitempty"`
 	ProjectID       null.Int64        `boil:"project_id" json:"project_id,omitempty" toml:"project_id" yaml:"project_id,omitempty"`
 	ProjectName     null.String       `boil:"project_name" json:"project_name,omitempty" toml:"project_name" yaml:"project_name,omitempty"`
-	ProjectOwnerID  null.Int64        `boil:"project_owner_id" json:"project_owner_id,omitempty" toml:"project_owner_id" yaml:"project_owner_id,omitempty"`
+	ProjectOwnerID  int64             `boil:"project_owner_id" json:"project_owner_id" toml:"project_owner_id" yaml:"project_owner_id"`
 	ProjectPlanPath null.String       `boil:"project_plan_path" json:"project_plan_path,omitempty" toml:"project_plan_path" yaml:"project_plan_path,omitempty"`
 	VCS             null.String       `boil:"vcs" json:"vcs,omitempty" toml:"vcs" yaml:"vcs,omitempty"`
 	VCSArguments    types.StringArray `boil:"vcs_arguments" json:"vcs_arguments,omitempty" toml:"vcs_arguments" yaml:"vcs_arguments,omitempty"`
@@ -159,11 +159,11 @@ func (w whereHelperbool) GTE(x bool) qm.QueryMod { return qmhelper.Where(w.field
 
 var JobWhere = struct {
 	ID              whereHelperint64
-	OwnerID         whereHelpernull_Int64
+	OwnerID         whereHelperint64
 	JobState        whereHelpernull_String
 	ProjectID       whereHelpernull_Int64
 	ProjectName     whereHelpernull_String
-	ProjectOwnerID  whereHelpernull_Int64
+	ProjectOwnerID  whereHelperint64
 	ProjectPlanPath whereHelpernull_String
 	VCS             whereHelpernull_String
 	VCSArguments    whereHelpertypes_StringArray
@@ -182,11 +182,11 @@ var JobWhere = struct {
 	Target          whereHelpernull_String
 }{
 	ID:              whereHelperint64{field: `id`},
-	OwnerID:         whereHelpernull_Int64{field: `owner_id`},
+	OwnerID:         whereHelperint64{field: `owner_id`},
 	JobState:        whereHelpernull_String{field: `job_state`},
 	ProjectID:       whereHelpernull_Int64{field: `project_id`},
 	ProjectName:     whereHelpernull_String{field: `project_name`},
-	ProjectOwnerID:  whereHelpernull_Int64{field: `project_owner_id`},
+	ProjectOwnerID:  whereHelperint64{field: `project_owner_id`},
 	ProjectPlanPath: whereHelpernull_String{field: `project_plan_path`},
 	VCS:             whereHelpernull_String{field: `vcs`},
 	VCSArguments:    whereHelpertypes_StringArray{field: `vcs_arguments`},

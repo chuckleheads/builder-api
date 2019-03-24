@@ -24,76 +24,76 @@ import (
 
 // OriginPublicEncryptionKey is an object representing the database table.
 type OriginPublicEncryptionKey struct {
-	ID         int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OwnerID    null.Int64  `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
-	Name       null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
-	Revision   null.String `boil:"revision" json:"revision,omitempty" toml:"revision" yaml:"revision,omitempty"`
-	FullName   null.String `boil:"full_name" json:"full_name,omitempty" toml:"full_name" yaml:"full_name,omitempty"`
-	Body       null.Bytes  `boil:"body" json:"body,omitempty" toml:"body" yaml:"body,omitempty"`
-	CreatedAt  null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
-	UpdatedAt  null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
-	OriginName null.String `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	ID        int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OwnerID   int64       `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
+	Name      null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
+	Revision  null.String `boil:"revision" json:"revision,omitempty" toml:"revision" yaml:"revision,omitempty"`
+	FullName  null.String `boil:"full_name" json:"full_name,omitempty" toml:"full_name" yaml:"full_name,omitempty"`
+	Body      null.Bytes  `boil:"body" json:"body,omitempty" toml:"body" yaml:"body,omitempty"`
+	CreatedAt null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
+	UpdatedAt null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
+	Origin    null.String `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 
 	R *originPublicEncryptionKeyR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L originPublicEncryptionKeyL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var OriginPublicEncryptionKeyColumns = struct {
-	ID         string
-	OwnerID    string
-	Name       string
-	Revision   string
-	FullName   string
-	Body       string
-	CreatedAt  string
-	UpdatedAt  string
-	OriginName string
+	ID        string
+	OwnerID   string
+	Name      string
+	Revision  string
+	FullName  string
+	Body      string
+	CreatedAt string
+	UpdatedAt string
+	Origin    string
 }{
-	ID:         "id",
-	OwnerID:    "owner_id",
-	Name:       "name",
-	Revision:   "revision",
-	FullName:   "full_name",
-	Body:       "body",
-	CreatedAt:  "created_at",
-	UpdatedAt:  "updated_at",
-	OriginName: "origin_name",
+	ID:        "id",
+	OwnerID:   "owner_id",
+	Name:      "name",
+	Revision:  "revision",
+	FullName:  "full_name",
+	Body:      "body",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
+	Origin:    "origin",
 }
 
 // Generated where
 
 var OriginPublicEncryptionKeyWhere = struct {
-	ID         whereHelperint64
-	OwnerID    whereHelpernull_Int64
-	Name       whereHelpernull_String
-	Revision   whereHelpernull_String
-	FullName   whereHelpernull_String
-	Body       whereHelpernull_Bytes
-	CreatedAt  whereHelpernull_Time
-	UpdatedAt  whereHelpernull_Time
-	OriginName whereHelpernull_String
+	ID        whereHelperint64
+	OwnerID   whereHelperint64
+	Name      whereHelpernull_String
+	Revision  whereHelpernull_String
+	FullName  whereHelpernull_String
+	Body      whereHelpernull_Bytes
+	CreatedAt whereHelpernull_Time
+	UpdatedAt whereHelpernull_Time
+	Origin    whereHelpernull_String
 }{
-	ID:         whereHelperint64{field: `id`},
-	OwnerID:    whereHelpernull_Int64{field: `owner_id`},
-	Name:       whereHelpernull_String{field: `name`},
-	Revision:   whereHelpernull_String{field: `revision`},
-	FullName:   whereHelpernull_String{field: `full_name`},
-	Body:       whereHelpernull_Bytes{field: `body`},
-	CreatedAt:  whereHelpernull_Time{field: `created_at`},
-	UpdatedAt:  whereHelpernull_Time{field: `updated_at`},
-	OriginName: whereHelpernull_String{field: `origin_name`},
+	ID:        whereHelperint64{field: `id`},
+	OwnerID:   whereHelperint64{field: `owner_id`},
+	Name:      whereHelpernull_String{field: `name`},
+	Revision:  whereHelpernull_String{field: `revision`},
+	FullName:  whereHelpernull_String{field: `full_name`},
+	Body:      whereHelpernull_Bytes{field: `body`},
+	CreatedAt: whereHelpernull_Time{field: `created_at`},
+	UpdatedAt: whereHelpernull_Time{field: `updated_at`},
+	Origin:    whereHelpernull_String{field: `origin`},
 }
 
 // OriginPublicEncryptionKeyRels is where relationship names are stored.
 var OriginPublicEncryptionKeyRels = struct {
-	Origin string
+	OriginName string
 }{
-	Origin: "Origin",
+	OriginName: "OriginName",
 }
 
 // originPublicEncryptionKeyR is where relationships are stored.
 type originPublicEncryptionKeyR struct {
-	Origin *Origin
+	OriginName *Origin
 }
 
 // NewStruct creates a new relationship struct
@@ -105,8 +105,8 @@ func (*originPublicEncryptionKeyR) NewStruct() *originPublicEncryptionKeyR {
 type originPublicEncryptionKeyL struct{}
 
 var (
-	originPublicEncryptionKeyColumns               = []string{"id", "owner_id", "name", "revision", "full_name", "body", "created_at", "updated_at", "origin_name"}
-	originPublicEncryptionKeyColumnsWithoutDefault = []string{"owner_id", "name", "revision", "full_name", "body", "origin_name"}
+	originPublicEncryptionKeyColumns               = []string{"id", "owner_id", "name", "revision", "full_name", "body", "created_at", "updated_at", "origin"}
+	originPublicEncryptionKeyColumnsWithoutDefault = []string{"owner_id", "name", "revision", "full_name", "body", "origin"}
 	originPublicEncryptionKeyColumnsWithDefault    = []string{"id", "created_at", "updated_at"}
 	originPublicEncryptionKeyPrimaryKeyColumns     = []string{"id"}
 )
@@ -386,10 +386,10 @@ func (q originPublicEncryptionKeyQuery) Exists(ctx context.Context, exec boil.Co
 	return count > 0, nil
 }
 
-// Origin pointed to by the foreign key.
-func (o *OriginPublicEncryptionKey) Origin(mods ...qm.QueryMod) originQuery {
+// OriginName pointed to by the foreign key.
+func (o *OriginPublicEncryptionKey) OriginName(mods ...qm.QueryMod) originQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("name=?", o.OriginName),
+		qm.Where("name=?", o.Origin),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -400,9 +400,9 @@ func (o *OriginPublicEncryptionKey) Origin(mods ...qm.QueryMod) originQuery {
 	return query
 }
 
-// LoadOrigin allows an eager lookup of values, cached into the
+// LoadOriginName allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (originPublicEncryptionKeyL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginPublicEncryptionKey interface{}, mods queries.Applicator) error {
+func (originPublicEncryptionKeyL) LoadOriginName(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginPublicEncryptionKey interface{}, mods queries.Applicator) error {
 	var slice []*OriginPublicEncryptionKey
 	var object *OriginPublicEncryptionKey
 
@@ -417,8 +417,8 @@ func (originPublicEncryptionKeyL) LoadOrigin(ctx context.Context, e boil.Context
 		if object.R == nil {
 			object.R = &originPublicEncryptionKeyR{}
 		}
-		if !queries.IsNil(object.OriginName) {
-			args = append(args, object.OriginName)
+		if !queries.IsNil(object.Origin) {
+			args = append(args, object.Origin)
 		}
 
 	} else {
@@ -429,13 +429,13 @@ func (originPublicEncryptionKeyL) LoadOrigin(ctx context.Context, e boil.Context
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.OriginName) {
+				if queries.Equal(a, obj.Origin) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.OriginName) {
-				args = append(args, obj.OriginName)
+			if !queries.IsNil(obj.Origin) {
+				args = append(args, obj.Origin)
 			}
 
 		}
@@ -481,7 +481,7 @@ func (originPublicEncryptionKeyL) LoadOrigin(ctx context.Context, e boil.Context
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Origin = foreign
+		object.R.OriginName = foreign
 		if foreign.R == nil {
 			foreign.R = &originR{}
 		}
@@ -491,8 +491,8 @@ func (originPublicEncryptionKeyL) LoadOrigin(ctx context.Context, e boil.Context
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.OriginName, foreign.Name) {
-				local.R.Origin = foreign
+			if queries.Equal(local.Origin, foreign.Name) {
+				local.R.OriginName = foreign
 				if foreign.R == nil {
 					foreign.R = &originR{}
 				}
@@ -505,10 +505,10 @@ func (originPublicEncryptionKeyL) LoadOrigin(ctx context.Context, e boil.Context
 	return nil
 }
 
-// SetOrigin of the originPublicEncryptionKey to the related item.
-// Sets o.R.Origin to related.
+// SetOriginName of the originPublicEncryptionKey to the related item.
+// Sets o.R.OriginName to related.
 // Adds o to related.R.OriginOPUEK.
-func (o *OriginPublicEncryptionKey) SetOrigin(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
+func (o *OriginPublicEncryptionKey) SetOriginName(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -518,7 +518,7 @@ func (o *OriginPublicEncryptionKey) SetOrigin(ctx context.Context, exec boil.Con
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"origin_public_encryption_keys\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 		strmangle.WhereClause("\"", "\"", 2, originPublicEncryptionKeyPrimaryKeyColumns),
 	)
 	values := []interface{}{related.Name, o.ID}
@@ -532,13 +532,13 @@ func (o *OriginPublicEncryptionKey) SetOrigin(ctx context.Context, exec boil.Con
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.OriginName, related.Name)
+	queries.Assign(&o.Origin, related.Name)
 	if o.R == nil {
 		o.R = &originPublicEncryptionKeyR{
-			Origin: related,
+			OriginName: related,
 		}
 	} else {
-		o.R.Origin = related
+		o.R.OriginName = related
 	}
 
 	if related.R == nil {
@@ -552,24 +552,24 @@ func (o *OriginPublicEncryptionKey) SetOrigin(ctx context.Context, exec boil.Con
 	return nil
 }
 
-// RemoveOrigin relationship.
-// Sets o.R.Origin to nil.
+// RemoveOriginName relationship.
+// Sets o.R.OriginName to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *OriginPublicEncryptionKey) RemoveOrigin(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
+func (o *OriginPublicEncryptionKey) RemoveOriginName(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
 	var err error
 
-	queries.SetScanner(&o.OriginName, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+	queries.SetScanner(&o.Origin, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.R.Origin = nil
+	o.R.OriginName = nil
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.OriginOPUEK {
-		if queries.Equal(o.OriginName, ri.OriginName) {
+		if queries.Equal(o.Origin, ri.Origin) {
 			continue
 		}
 

@@ -3,15 +3,15 @@ package resources
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"net/http"
 
-	"github.com/chuckleheads/builder-api/pkg/models"
 	"github.com/go-chi/chi"
+	"github.com/go-chi/jwtauth"
 	"github.com/go-chi/render"
 	_ "github.com/lib/pq"
 	"github.com/volatiletech/sqlboiler/boil"
-	// . "github.com/volatiletech/sqlboiler/queries/qm"
+
+	"github.com/chuckleheads/builder-api/pkg/models"
 )
 
 type OriginResource struct {
@@ -79,7 +79,12 @@ func (or OriginResource) createOrigin(w http.ResponseWriter, r *http.Request) {
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
+	// Get account_id from users session
+	_, claims, _ := jwtauth.FromContext(r.Context())
+	data.OwnerID = int64(claims["account_id"].(float64))
+
 	if err := data.Insert(r.Context(), or.db, boil.Infer()); err != nil {
+		// TODO - check for other errors here
 		render.Render(w, r, ErrConflict(err))
 		return
 	}
@@ -89,7 +94,8 @@ func (or OriginResource) createOrigin(w http.ResponseWriter, r *http.Request) {
 func (or OriginResource) getOrigin(w http.ResponseWriter, r *http.Request) {
 	origin, err := models.FindOrigin(r.Context(), or.db, chi.URLParam(r, "origin"))
 	if err != nil {
-		fmt.Println(err)
+		render.Render(w, r, ErrDatabase(err))
+		return
 	}
 	render.JSON(w, r, origin)
 }

@@ -25,11 +25,11 @@ import (
 // OriginProject is an object representing the database table.
 type OriginProject struct {
 	ID                int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OriginName        null.String `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	Origin            null.String `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 	PackageName       null.String `boil:"package_name" json:"package_name,omitempty" toml:"package_name" yaml:"package_name,omitempty"`
 	Name              null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
 	PlanPath          null.String `boil:"plan_path" json:"plan_path,omitempty" toml:"plan_path" yaml:"plan_path,omitempty"`
-	OwnerID           null.Int64  `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
+	OwnerID           int64       `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
 	VCSType           null.String `boil:"vcs_type" json:"vcs_type,omitempty" toml:"vcs_type" yaml:"vcs_type,omitempty"`
 	VCSData           null.String `boil:"vcs_data" json:"vcs_data,omitempty" toml:"vcs_data" yaml:"vcs_data,omitempty"`
 	CreatedAt         null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
@@ -44,7 +44,7 @@ type OriginProject struct {
 
 var OriginProjectColumns = struct {
 	ID                string
-	OriginName        string
+	Origin            string
 	PackageName       string
 	Name              string
 	PlanPath          string
@@ -58,7 +58,7 @@ var OriginProjectColumns = struct {
 	AutoBuild         string
 }{
 	ID:                "id",
-	OriginName:        "origin_name",
+	Origin:            "origin",
 	PackageName:       "package_name",
 	Name:              "name",
 	PlanPath:          "plan_path",
@@ -76,11 +76,11 @@ var OriginProjectColumns = struct {
 
 var OriginProjectWhere = struct {
 	ID                whereHelperint64
-	OriginName        whereHelpernull_String
+	Origin            whereHelpernull_String
 	PackageName       whereHelpernull_String
 	Name              whereHelpernull_String
 	PlanPath          whereHelpernull_String
-	OwnerID           whereHelpernull_Int64
+	OwnerID           whereHelperint64
 	VCSType           whereHelpernull_String
 	VCSData           whereHelpernull_String
 	CreatedAt         whereHelpernull_Time
@@ -90,11 +90,11 @@ var OriginProjectWhere = struct {
 	AutoBuild         whereHelperbool
 }{
 	ID:                whereHelperint64{field: `id`},
-	OriginName:        whereHelpernull_String{field: `origin_name`},
+	Origin:            whereHelpernull_String{field: `origin`},
 	PackageName:       whereHelpernull_String{field: `package_name`},
 	Name:              whereHelpernull_String{field: `name`},
 	PlanPath:          whereHelpernull_String{field: `plan_path`},
-	OwnerID:           whereHelpernull_Int64{field: `owner_id`},
+	OwnerID:           whereHelperint64{field: `owner_id`},
 	VCSType:           whereHelpernull_String{field: `vcs_type`},
 	VCSData:           whereHelpernull_String{field: `vcs_data`},
 	CreatedAt:         whereHelpernull_Time{field: `created_at`},
@@ -106,16 +106,16 @@ var OriginProjectWhere = struct {
 
 // OriginProjectRels is where relationship names are stored.
 var OriginProjectRels = struct {
-	Origin                           string
+	OriginName                       string
 	ProjectOriginProjectIntegrations string
 }{
-	Origin:                           "Origin",
+	OriginName:                       "OriginName",
 	ProjectOriginProjectIntegrations: "ProjectOriginProjectIntegrations",
 }
 
 // originProjectR is where relationships are stored.
 type originProjectR struct {
-	Origin                           *Origin
+	OriginName                       *Origin
 	ProjectOriginProjectIntegrations OriginProjectIntegrationSlice
 }
 
@@ -128,8 +128,8 @@ func (*originProjectR) NewStruct() *originProjectR {
 type originProjectL struct{}
 
 var (
-	originProjectColumns               = []string{"id", "origin_name", "package_name", "name", "plan_path", "owner_id", "vcs_type", "vcs_data", "created_at", "updated_at", "vcs_installation_id", "visibility", "auto_build"}
-	originProjectColumnsWithoutDefault = []string{"origin_name", "package_name", "name", "plan_path", "owner_id", "vcs_type", "vcs_data", "vcs_installation_id"}
+	originProjectColumns               = []string{"id", "origin", "package_name", "name", "plan_path", "owner_id", "vcs_type", "vcs_data", "created_at", "updated_at", "vcs_installation_id", "visibility", "auto_build"}
+	originProjectColumnsWithoutDefault = []string{"origin", "package_name", "name", "plan_path", "owner_id", "vcs_type", "vcs_data", "vcs_installation_id"}
 	originProjectColumnsWithDefault    = []string{"id", "created_at", "updated_at", "visibility", "auto_build"}
 	originProjectPrimaryKeyColumns     = []string{"id"}
 )
@@ -409,10 +409,10 @@ func (q originProjectQuery) Exists(ctx context.Context, exec boil.ContextExecuto
 	return count > 0, nil
 }
 
-// Origin pointed to by the foreign key.
-func (o *OriginProject) Origin(mods ...qm.QueryMod) originQuery {
+// OriginName pointed to by the foreign key.
+func (o *OriginProject) OriginName(mods ...qm.QueryMod) originQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("name=?", o.OriginName),
+		qm.Where("name=?", o.Origin),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -444,9 +444,9 @@ func (o *OriginProject) ProjectOriginProjectIntegrations(mods ...qm.QueryMod) or
 	return query
 }
 
-// LoadOrigin allows an eager lookup of values, cached into the
+// LoadOriginName allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (originProjectL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginProject interface{}, mods queries.Applicator) error {
+func (originProjectL) LoadOriginName(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginProject interface{}, mods queries.Applicator) error {
 	var slice []*OriginProject
 	var object *OriginProject
 
@@ -461,8 +461,8 @@ func (originProjectL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 		if object.R == nil {
 			object.R = &originProjectR{}
 		}
-		if !queries.IsNil(object.OriginName) {
-			args = append(args, object.OriginName)
+		if !queries.IsNil(object.Origin) {
+			args = append(args, object.Origin)
 		}
 
 	} else {
@@ -473,13 +473,13 @@ func (originProjectL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.OriginName) {
+				if queries.Equal(a, obj.Origin) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.OriginName) {
-				args = append(args, obj.OriginName)
+			if !queries.IsNil(obj.Origin) {
+				args = append(args, obj.Origin)
 			}
 
 		}
@@ -525,7 +525,7 @@ func (originProjectL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Origin = foreign
+		object.R.OriginName = foreign
 		if foreign.R == nil {
 			foreign.R = &originR{}
 		}
@@ -535,8 +535,8 @@ func (originProjectL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.OriginName, foreign.Name) {
-				local.R.Origin = foreign
+			if queries.Equal(local.Origin, foreign.Name) {
+				local.R.OriginName = foreign
 				if foreign.R == nil {
 					foreign.R = &originR{}
 				}
@@ -644,10 +644,10 @@ func (originProjectL) LoadProjectOriginProjectIntegrations(ctx context.Context, 
 	return nil
 }
 
-// SetOrigin of the originProject to the related item.
-// Sets o.R.Origin to related.
+// SetOriginName of the originProject to the related item.
+// Sets o.R.OriginName to related.
 // Adds o to related.R.OriginOPR.
-func (o *OriginProject) SetOrigin(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
+func (o *OriginProject) SetOriginName(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -657,7 +657,7 @@ func (o *OriginProject) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"origin_projects\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 		strmangle.WhereClause("\"", "\"", 2, originProjectPrimaryKeyColumns),
 	)
 	values := []interface{}{related.Name, o.ID}
@@ -671,13 +671,13 @@ func (o *OriginProject) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.OriginName, related.Name)
+	queries.Assign(&o.Origin, related.Name)
 	if o.R == nil {
 		o.R = &originProjectR{
-			Origin: related,
+			OriginName: related,
 		}
 	} else {
-		o.R.Origin = related
+		o.R.OriginName = related
 	}
 
 	if related.R == nil {
@@ -691,24 +691,24 @@ func (o *OriginProject) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 	return nil
 }
 
-// RemoveOrigin relationship.
-// Sets o.R.Origin to nil.
+// RemoveOriginName relationship.
+// Sets o.R.OriginName to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *OriginProject) RemoveOrigin(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
+func (o *OriginProject) RemoveOriginName(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
 	var err error
 
-	queries.SetScanner(&o.OriginName, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+	queries.SetScanner(&o.Origin, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.R.Origin = nil
+	o.R.OriginName = nil
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.OriginOPR {
-		if queries.Equal(o.OriginName, ri.OriginName) {
+		if queries.Equal(o.Origin, ri.Origin) {
 			continue
 		}
 

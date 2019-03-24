@@ -519,8 +519,8 @@ func testOriginToManyOriginAP(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -535,10 +535,10 @@ func testOriginToManyOriginAP(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -596,8 +596,8 @@ func testOriginToManyOriginAPG(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -612,10 +612,10 @@ func testOriginToManyOriginAPG(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -673,8 +673,8 @@ func testOriginToManyOriginOC(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -689,10 +689,10 @@ func testOriginToManyOriginOC(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -750,8 +750,8 @@ func testOriginToManyOriginOI(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -766,10 +766,10 @@ func testOriginToManyOriginOI(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -827,8 +827,8 @@ func testOriginToManyOriginOM(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -843,10 +843,10 @@ func testOriginToManyOriginOM(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -904,8 +904,8 @@ func testOriginToManyOriginOPA(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -920,10 +920,10 @@ func testOriginToManyOriginOPA(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -981,8 +981,8 @@ func testOriginToManyOriginOPREK(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -997,10 +997,10 @@ func testOriginToManyOriginOPREK(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -1058,8 +1058,8 @@ func testOriginToManyOriginOPR(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -1074,10 +1074,10 @@ func testOriginToManyOriginOPR(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -1135,8 +1135,8 @@ func testOriginToManyOriginOPUEK(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -1151,10 +1151,10 @@ func testOriginToManyOriginOPUEK(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -1212,8 +1212,8 @@ func testOriginToManyOriginOPK(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -1228,10 +1228,10 @@ func testOriginToManyOriginOPK(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -1289,8 +1289,8 @@ func testOriginToManyOriginOSK(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -1305,10 +1305,10 @@ func testOriginToManyOriginOSK(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -1366,8 +1366,8 @@ func testOriginToManyOriginOS(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.OriginName, a.Name)
-	queries.Assign(&c.OriginName, a.Name)
+	queries.Assign(&b.Origin, a.Name)
+	queries.Assign(&c.Origin, a.Name)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -1382,10 +1382,10 @@ func testOriginToManyOriginOS(t *testing.T) {
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.OriginName, b.OriginName) {
+		if queries.Equal(v.Origin, b.Origin) {
 			bFound = true
 		}
-		if queries.Equal(v.OriginName, c.OriginName) {
+		if queries.Equal(v.Origin, c.Origin) {
 			cFound = true
 		}
 	}
@@ -1463,17 +1463,17 @@ func testOriginToManyAddOpOriginAP(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -1551,29 +1551,29 @@ func testOriginToManySetOpOriginAP(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -1636,23 +1636,23 @@ func testOriginToManyRemoveOpOriginAP(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -1714,17 +1714,17 @@ func testOriginToManyAddOpOriginAPG(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -1802,29 +1802,29 @@ func testOriginToManySetOpOriginAPG(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -1887,23 +1887,23 @@ func testOriginToManyRemoveOpOriginAPG(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -1965,17 +1965,17 @@ func testOriginToManyAddOpOriginOC(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -2053,29 +2053,29 @@ func testOriginToManySetOpOriginOC(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -2138,23 +2138,23 @@ func testOriginToManyRemoveOpOriginOC(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -2216,17 +2216,17 @@ func testOriginToManyAddOpOriginOI(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -2304,29 +2304,29 @@ func testOriginToManySetOpOriginOI(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -2389,23 +2389,23 @@ func testOriginToManyRemoveOpOriginOI(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -2467,17 +2467,17 @@ func testOriginToManyAddOpOriginOM(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -2555,29 +2555,29 @@ func testOriginToManySetOpOriginOM(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -2640,23 +2640,23 @@ func testOriginToManyRemoveOpOriginOM(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -2718,17 +2718,17 @@ func testOriginToManyAddOpOriginOPA(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -2806,29 +2806,29 @@ func testOriginToManySetOpOriginOPA(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -2891,23 +2891,23 @@ func testOriginToManyRemoveOpOriginOPA(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -2969,17 +2969,17 @@ func testOriginToManyAddOpOriginOPREK(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -3057,29 +3057,29 @@ func testOriginToManySetOpOriginOPREK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -3142,23 +3142,23 @@ func testOriginToManyRemoveOpOriginOPREK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -3220,17 +3220,17 @@ func testOriginToManyAddOpOriginOPR(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -3308,29 +3308,29 @@ func testOriginToManySetOpOriginOPR(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -3393,23 +3393,23 @@ func testOriginToManyRemoveOpOriginOPR(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -3471,17 +3471,17 @@ func testOriginToManyAddOpOriginOPUEK(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -3559,29 +3559,29 @@ func testOriginToManySetOpOriginOPUEK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -3644,23 +3644,23 @@ func testOriginToManyRemoveOpOriginOPUEK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -3722,17 +3722,17 @@ func testOriginToManyAddOpOriginOPK(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -3810,29 +3810,29 @@ func testOriginToManySetOpOriginOPK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -3895,23 +3895,23 @@ func testOriginToManyRemoveOpOriginOPK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -3973,17 +3973,17 @@ func testOriginToManyAddOpOriginOSK(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -4061,29 +4061,29 @@ func testOriginToManySetOpOriginOSK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -4146,23 +4146,23 @@ func testOriginToManyRemoveOpOriginOSK(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
@@ -4224,17 +4224,17 @@ func testOriginToManyAddOpOriginOS(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.Name, first.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, first.OriginName)
+		if !queries.Equal(a.Name, first.Origin) {
+			t.Error("foreign key was wrong value", a.Name, first.Origin)
 		}
-		if !queries.Equal(a.Name, second.OriginName) {
-			t.Error("foreign key was wrong value", a.Name, second.OriginName)
+		if !queries.Equal(a.Name, second.Origin) {
+			t.Error("foreign key was wrong value", a.Name, second.Origin)
 		}
 
-		if first.R.Origin != &a {
+		if first.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Origin != &a {
+		if second.R.OriginName != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
@@ -4312,29 +4312,29 @@ func testOriginToManySetOpOriginOS(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.Name, d.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, d.OriginName)
+	if !queries.Equal(a.Name, d.Origin) {
+		t.Error("foreign key was wrong value", a.Name, d.Origin)
 	}
-	if !queries.Equal(a.Name, e.OriginName) {
-		t.Error("foreign key was wrong value", a.Name, e.OriginName)
+	if !queries.Equal(a.Name, e.Origin) {
+		t.Error("foreign key was wrong value", a.Name, e.Origin)
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship was not added properly to the foreign struct")
 	}
 
@@ -4397,23 +4397,23 @@ func testOriginToManyRemoveOpOriginOS(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.OriginName) {
+	if !queries.IsValuerNil(b.Origin) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.OriginName) {
+	if !queries.IsValuerNil(c.Origin) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.Origin != nil {
+	if b.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.Origin != nil {
+	if c.R.OriginName != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.Origin != &a {
+	if d.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.Origin != &a {
+	if e.R.OriginName != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 

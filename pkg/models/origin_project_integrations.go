@@ -24,7 +24,7 @@ import (
 // OriginProjectIntegration is an object representing the database table.
 type OriginProjectIntegration struct {
 	ID            int64     `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OriginName    string    `boil:"origin_name" json:"origin_name" toml:"origin_name" yaml:"origin_name"`
+	Origin        string    `boil:"origin" json:"origin" toml:"origin" yaml:"origin"`
 	Body          string    `boil:"body" json:"body" toml:"body" yaml:"body"`
 	CreatedAt     time.Time `boil:"created_at" json:"created_at" toml:"created_at" yaml:"created_at"`
 	UpdatedAt     time.Time `boil:"updated_at" json:"updated_at" toml:"updated_at" yaml:"updated_at"`
@@ -37,7 +37,7 @@ type OriginProjectIntegration struct {
 
 var OriginProjectIntegrationColumns = struct {
 	ID            string
-	OriginName    string
+	Origin        string
 	Body          string
 	CreatedAt     string
 	UpdatedAt     string
@@ -45,7 +45,7 @@ var OriginProjectIntegrationColumns = struct {
 	IntegrationID string
 }{
 	ID:            "id",
-	OriginName:    "origin_name",
+	Origin:        "origin",
 	Body:          "body",
 	CreatedAt:     "created_at",
 	UpdatedAt:     "updated_at",
@@ -78,7 +78,7 @@ func (w whereHelpertime_Time) GTE(x time.Time) qm.QueryMod {
 
 var OriginProjectIntegrationWhere = struct {
 	ID            whereHelperint64
-	OriginName    whereHelperstring
+	Origin        whereHelperstring
 	Body          whereHelperstring
 	CreatedAt     whereHelpertime_Time
 	UpdatedAt     whereHelpertime_Time
@@ -86,7 +86,7 @@ var OriginProjectIntegrationWhere = struct {
 	IntegrationID whereHelperint64
 }{
 	ID:            whereHelperint64{field: `id`},
-	OriginName:    whereHelperstring{field: `origin_name`},
+	Origin:        whereHelperstring{field: `origin`},
 	Body:          whereHelperstring{field: `body`},
 	CreatedAt:     whereHelpertime_Time{field: `created_at`},
 	UpdatedAt:     whereHelpertime_Time{field: `updated_at`},
@@ -118,8 +118,8 @@ func (*originProjectIntegrationR) NewStruct() *originProjectIntegrationR {
 type originProjectIntegrationL struct{}
 
 var (
-	originProjectIntegrationColumns               = []string{"id", "origin_name", "body", "created_at", "updated_at", "project_id", "integration_id"}
-	originProjectIntegrationColumnsWithoutDefault = []string{"origin_name", "body", "project_id", "integration_id"}
+	originProjectIntegrationColumns               = []string{"id", "origin", "body", "created_at", "updated_at", "project_id", "integration_id"}
+	originProjectIntegrationColumnsWithoutDefault = []string{"origin", "body", "project_id", "integration_id"}
 	originProjectIntegrationColumnsWithDefault    = []string{"id", "created_at", "updated_at"}
 	originProjectIntegrationPrimaryKeyColumns     = []string{"id"}
 )

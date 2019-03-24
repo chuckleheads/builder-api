@@ -26,7 +26,7 @@ import (
 // OriginPackage is an object representing the database table.
 type OriginPackage struct {
 	ID            int64             `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OwnerID       null.Int64        `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
+	OwnerID       int64             `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
 	Name          null.String       `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
 	Ident         null.String       `boil:"ident" json:"ident,omitempty" toml:"ident" yaml:"ident,omitempty"`
 	IdentArray    types.StringArray `boil:"ident_array" json:"ident_array,omitempty" toml:"ident_array" yaml:"ident_array,omitempty"`
@@ -42,7 +42,7 @@ type OriginPackage struct {
 	UpdatedAt     null.Time         `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
 	Visibility    string            `boil:"visibility" json:"visibility" toml:"visibility" yaml:"visibility"`
 	IdentVector   null.String       `boil:"ident_vector" json:"ident_vector,omitempty" toml:"ident_vector" yaml:"ident_vector,omitempty"`
-	OriginName    null.String       `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	Origin        null.String       `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 
 	R *originPackageR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L originPackageL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -66,7 +66,7 @@ var OriginPackageColumns = struct {
 	UpdatedAt     string
 	Visibility    string
 	IdentVector   string
-	OriginName    string
+	Origin        string
 }{
 	ID:            "id",
 	OwnerID:       "owner_id",
@@ -85,7 +85,7 @@ var OriginPackageColumns = struct {
 	UpdatedAt:     "updated_at",
 	Visibility:    "visibility",
 	IdentVector:   "ident_vector",
-	OriginName:    "origin_name",
+	Origin:        "origin",
 }
 
 // Generated where
@@ -101,7 +101,7 @@ func (w whereHelperstring) GTE(x string) qm.QueryMod { return qmhelper.Where(w.f
 
 var OriginPackageWhere = struct {
 	ID            whereHelperint64
-	OwnerID       whereHelpernull_Int64
+	OwnerID       whereHelperint64
 	Name          whereHelpernull_String
 	Ident         whereHelpernull_String
 	IdentArray    whereHelpertypes_StringArray
@@ -117,10 +117,10 @@ var OriginPackageWhere = struct {
 	UpdatedAt     whereHelpernull_Time
 	Visibility    whereHelperstring
 	IdentVector   whereHelpernull_String
-	OriginName    whereHelpernull_String
+	Origin        whereHelpernull_String
 }{
 	ID:            whereHelperint64{field: `id`},
-	OwnerID:       whereHelpernull_Int64{field: `owner_id`},
+	OwnerID:       whereHelperint64{field: `owner_id`},
 	Name:          whereHelpernull_String{field: `name`},
 	Ident:         whereHelpernull_String{field: `ident`},
 	IdentArray:    whereHelpertypes_StringArray{field: `ident_array`},
@@ -136,21 +136,21 @@ var OriginPackageWhere = struct {
 	UpdatedAt:     whereHelpernull_Time{field: `updated_at`},
 	Visibility:    whereHelperstring{field: `visibility`},
 	IdentVector:   whereHelpernull_String{field: `ident_vector`},
-	OriginName:    whereHelpernull_String{field: `origin_name`},
+	Origin:        whereHelpernull_String{field: `origin`},
 }
 
 // OriginPackageRels is where relationship names are stored.
 var OriginPackageRels = struct {
-	Origin                       string
+	OriginName                   string
 	PackageOriginChannelPackages string
 }{
-	Origin:                       "Origin",
+	OriginName:                   "OriginName",
 	PackageOriginChannelPackages: "PackageOriginChannelPackages",
 }
 
 // originPackageR is where relationships are stored.
 type originPackageR struct {
-	Origin                       *Origin
+	OriginName                   *Origin
 	PackageOriginChannelPackages OriginChannelPackageSlice
 }
 
@@ -163,8 +163,8 @@ func (*originPackageR) NewStruct() *originPackageR {
 type originPackageL struct{}
 
 var (
-	originPackageColumns               = []string{"id", "owner_id", "name", "ident", "ident_array", "checksum", "manifest", "config", "target", "deps", "tdeps", "exposes", "scheduler_sync", "created_at", "updated_at", "visibility", "ident_vector", "origin_name"}
-	originPackageColumnsWithoutDefault = []string{"owner_id", "name", "ident", "ident_array", "checksum", "manifest", "config", "target", "deps", "tdeps", "exposes", "ident_vector", "origin_name"}
+	originPackageColumns               = []string{"id", "owner_id", "name", "ident", "ident_array", "checksum", "manifest", "config", "target", "deps", "tdeps", "exposes", "scheduler_sync", "created_at", "updated_at", "visibility", "ident_vector", "origin"}
+	originPackageColumnsWithoutDefault = []string{"owner_id", "name", "ident", "ident_array", "checksum", "manifest", "config", "target", "deps", "tdeps", "exposes", "ident_vector", "origin"}
 	originPackageColumnsWithDefault    = []string{"id", "scheduler_sync", "created_at", "updated_at", "visibility"}
 	originPackagePrimaryKeyColumns     = []string{"id"}
 )
@@ -444,10 +444,10 @@ func (q originPackageQuery) Exists(ctx context.Context, exec boil.ContextExecuto
 	return count > 0, nil
 }
 
-// Origin pointed to by the foreign key.
-func (o *OriginPackage) Origin(mods ...qm.QueryMod) originQuery {
+// OriginName pointed to by the foreign key.
+func (o *OriginPackage) OriginName(mods ...qm.QueryMod) originQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("name=?", o.OriginName),
+		qm.Where("name=?", o.Origin),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -479,9 +479,9 @@ func (o *OriginPackage) PackageOriginChannelPackages(mods ...qm.QueryMod) origin
 	return query
 }
 
-// LoadOrigin allows an eager lookup of values, cached into the
+// LoadOriginName allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (originPackageL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginPackage interface{}, mods queries.Applicator) error {
+func (originPackageL) LoadOriginName(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginPackage interface{}, mods queries.Applicator) error {
 	var slice []*OriginPackage
 	var object *OriginPackage
 
@@ -496,8 +496,8 @@ func (originPackageL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 		if object.R == nil {
 			object.R = &originPackageR{}
 		}
-		if !queries.IsNil(object.OriginName) {
-			args = append(args, object.OriginName)
+		if !queries.IsNil(object.Origin) {
+			args = append(args, object.Origin)
 		}
 
 	} else {
@@ -508,13 +508,13 @@ func (originPackageL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.OriginName) {
+				if queries.Equal(a, obj.Origin) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.OriginName) {
-				args = append(args, obj.OriginName)
+			if !queries.IsNil(obj.Origin) {
+				args = append(args, obj.Origin)
 			}
 
 		}
@@ -560,7 +560,7 @@ func (originPackageL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Origin = foreign
+		object.R.OriginName = foreign
 		if foreign.R == nil {
 			foreign.R = &originR{}
 		}
@@ -570,8 +570,8 @@ func (originPackageL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.OriginName, foreign.Name) {
-				local.R.Origin = foreign
+			if queries.Equal(local.Origin, foreign.Name) {
+				local.R.OriginName = foreign
 				if foreign.R == nil {
 					foreign.R = &originR{}
 				}
@@ -679,10 +679,10 @@ func (originPackageL) LoadPackageOriginChannelPackages(ctx context.Context, e bo
 	return nil
 }
 
-// SetOrigin of the originPackage to the related item.
-// Sets o.R.Origin to related.
+// SetOriginName of the originPackage to the related item.
+// Sets o.R.OriginName to related.
 // Adds o to related.R.OriginOPA.
-func (o *OriginPackage) SetOrigin(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
+func (o *OriginPackage) SetOriginName(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -692,7 +692,7 @@ func (o *OriginPackage) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"origin_packages\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 		strmangle.WhereClause("\"", "\"", 2, originPackagePrimaryKeyColumns),
 	)
 	values := []interface{}{related.Name, o.ID}
@@ -706,13 +706,13 @@ func (o *OriginPackage) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.OriginName, related.Name)
+	queries.Assign(&o.Origin, related.Name)
 	if o.R == nil {
 		o.R = &originPackageR{
-			Origin: related,
+			OriginName: related,
 		}
 	} else {
-		o.R.Origin = related
+		o.R.OriginName = related
 	}
 
 	if related.R == nil {
@@ -726,24 +726,24 @@ func (o *OriginPackage) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 	return nil
 }
 
-// RemoveOrigin relationship.
-// Sets o.R.Origin to nil.
+// RemoveOriginName relationship.
+// Sets o.R.OriginName to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *OriginPackage) RemoveOrigin(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
+func (o *OriginPackage) RemoveOriginName(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
 	var err error
 
-	queries.SetScanner(&o.OriginName, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+	queries.SetScanner(&o.Origin, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.R.Origin = nil
+	o.R.OriginName = nil
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.OriginOPA {
-		if queries.Equal(o.OriginName, ri.OriginName) {
+		if queries.Equal(o.Origin, ri.Origin) {
 			continue
 		}
 

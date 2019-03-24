@@ -32,6 +32,15 @@ func ErrConflict(err error) render.Renderer {
 	}
 }
 
+func ErrDatabase(err error) render.Renderer {
+	return &ErrResponse{
+		Err:            err,
+		HTTPStatusCode: 500,
+		StatusText:     "Database.",
+		ErrorText:      err.Error(),
+	}
+}
+
 func (e *ErrResponse) Render(w http.ResponseWriter, r *http.Request) error {
 	render.Status(r, e.HTTPStatusCode)
 	return nil

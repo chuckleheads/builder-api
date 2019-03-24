@@ -13,51 +13,51 @@
 local   = "OriginAP"
 # Even if left unspecified, the foreign side would have been inferred correctly
 # due to the proper naming of the foreign key column.
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.audit_package_group.relationships.audit_package_group_origin_fkey]
 local   = "OriginAPG"
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.origin_channels.relationships.origin_channels_origin_fkey]
 local   = "OriginOC"
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.origin_invitations.relationships.origin_invitations_origin_fkey]
 local   = "OriginOI"
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.origin_members.relationships.origin_members_origin_fkey]
 local   = "OriginOM"
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.origin_packages.relationships.origin_packages_origin_fkey]
 local   = "OriginOPA"
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.origin_private_encryption_keys.relationships.origin_private_encryption_keys_origin_fkey]
 local   = "OriginOPREK"
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.origin_projects.relationships.origin_projects_origin_fkey]
 local   = "OriginOPR"
-foreign = "Origin"
+foreign = "OriginName"
 
 
 [aliases.tables.origin_public_encryption_keys.relationships.origin_public_encryption_keys_origin_fkey]
 local   = "OriginOPUEK"
-foreign = "Origin"
+foreign = "OriginName"
 
 
 [aliases.tables.origin_public_keys.relationships.origin_public_keys_origin_fkey]
 local   = "OriginOPK"
-foreign = "Origin"
+foreign = "OriginName"
 
 
 [aliases.tables.origin_secret_keys.relationships.origin_secret_keys_origin_fkey]
 local   = "OriginOSK"
-foreign = "Origin"
+foreign = "OriginName"
 
 [aliases.tables.origin_secrets.relationships.origin_secrets_origin_fkey]
 local   = "OriginOS"
-foreign = "Origin"
+foreign = "OriginName"

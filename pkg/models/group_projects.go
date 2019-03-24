@@ -25,7 +25,7 @@ import (
 // GroupProject is an object representing the database table.
 type GroupProject struct {
 	ID           int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OwnerID      null.Int64  `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
+	OwnerID      int64       `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
 	ProjectName  null.String `boil:"project_name" json:"project_name,omitempty" toml:"project_name" yaml:"project_name,omitempty"`
 	ProjectIdent null.String `boil:"project_ident" json:"project_ident,omitempty" toml:"project_ident" yaml:"project_ident,omitempty"`
 	ProjectState null.String `boil:"project_state" json:"project_state,omitempty" toml:"project_state" yaml:"project_state,omitempty"`
@@ -64,7 +64,7 @@ var GroupProjectColumns = struct {
 
 var GroupProjectWhere = struct {
 	ID           whereHelperint64
-	OwnerID      whereHelpernull_Int64
+	OwnerID      whereHelperint64
 	ProjectName  whereHelpernull_String
 	ProjectIdent whereHelpernull_String
 	ProjectState whereHelpernull_String
@@ -74,7 +74,7 @@ var GroupProjectWhere = struct {
 	Target       whereHelpernull_String
 }{
 	ID:           whereHelperint64{field: `id`},
-	OwnerID:      whereHelpernull_Int64{field: `owner_id`},
+	OwnerID:      whereHelperint64{field: `owner_id`},
 	ProjectName:  whereHelpernull_String{field: `project_name`},
 	ProjectIdent: whereHelpernull_String{field: `project_ident`},
 	ProjectState: whereHelpernull_String{field: `project_state`},

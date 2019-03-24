@@ -722,7 +722,7 @@ func testOriginIntegrationsSelect(t *testing.T) {
 }
 
 var (
-	originIntegrationDBTypes = map[string]string{`ID`: `bigint`, `OriginName`: `text`, `Integration`: `text`, `Name`: `text`, `Body`: `text`, `CreatedAt`: `timestamp with time zone`, `UpdatedAt`: `timestamp with time zone`}
+	originIntegrationDBTypes = map[string]string{`ID`: `bigint`, `Origin`: `text`, `Integration`: `text`, `Name`: `text`, `Body`: `text`, `CreatedAt`: `timestamp with time zone`, `UpdatedAt`: `timestamp with time zone`}
 	_                        = bytes.MinRead
 )
 

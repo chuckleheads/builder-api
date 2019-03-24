@@ -15,4 +15,6 @@ func (ur UserResource) Routes() chi.Router {
 	return r
 }
 func (ur UserResource) getInvitations(w http.ResponseWriter, r *http.Request) {}
-func (ur UserResource) getOrigins(w http.ResponseWriter, r *http.Request)     {}
+func (ur UserResource) getOrigins(w http.ResponseWriter, r *http.Request) {
+
+}

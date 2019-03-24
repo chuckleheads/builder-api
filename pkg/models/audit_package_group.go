@@ -33,7 +33,7 @@ type AuditPackageGroup struct {
 	RequesterName null.String      `boil:"requester_name" json:"requester_name,omitempty" toml:"requester_name" yaml:"requester_name,omitempty"`
 	GroupID       null.Int64       `boil:"group_id" json:"group_id,omitempty" toml:"group_id" yaml:"group_id,omitempty"`
 	CreatedAt     null.Time        `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
-	OriginName    null.String      `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	Origin        null.String      `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 	Channel       null.String      `boil:"channel" json:"channel,omitempty" toml:"channel" yaml:"channel,omitempty"`
 
 	R *auditPackageGroupR `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -49,7 +49,7 @@ var AuditPackageGroupColumns = struct {
 	RequesterName string
 	GroupID       string
 	CreatedAt     string
-	OriginName    string
+	Origin        string
 	Channel       string
 }{
 	ID:            "id",
@@ -60,7 +60,7 @@ var AuditPackageGroupColumns = struct {
 	RequesterName: "requester_name",
 	GroupID:       "group_id",
 	CreatedAt:     "created_at",
-	OriginName:    "origin_name",
+	Origin:        "origin",
 	Channel:       "channel",
 }
 
@@ -98,7 +98,7 @@ var AuditPackageGroupWhere = struct {
 	RequesterName whereHelpernull_String
 	GroupID       whereHelpernull_Int64
 	CreatedAt     whereHelpernull_Time
-	OriginName    whereHelpernull_String
+	Origin        whereHelpernull_String
 	Channel       whereHelpernull_String
 }{
 	ID:            whereHelperint{field: `id`},
@@ -109,20 +109,20 @@ var AuditPackageGroupWhere = struct {
 	RequesterName: whereHelpernull_String{field: `requester_name`},
 	GroupID:       whereHelpernull_Int64{field: `group_id`},
 	CreatedAt:     whereHelpernull_Time{field: `created_at`},
-	OriginName:    whereHelpernull_String{field: `origin_name`},
+	Origin:        whereHelpernull_String{field: `origin`},
 	Channel:       whereHelpernull_String{field: `channel`},
 }
 
 // AuditPackageGroupRels is where relationship names are stored.
 var AuditPackageGroupRels = struct {
-	Origin string
+	OriginName string
 }{
-	Origin: "Origin",
+	OriginName: "OriginName",
 }
 
 // auditPackageGroupR is where relationships are stored.
 type auditPackageGroupR struct {
-	Origin *Origin
+	OriginName *Origin
 }
 
 // NewStruct creates a new relationship struct
@@ -134,8 +134,8 @@ func (*auditPackageGroupR) NewStruct() *auditPackageGroupR {
 type auditPackageGroupL struct{}
 
 var (
-	auditPackageGroupColumns               = []string{"id", "package_ids", "operation", "trigger", "requester_id", "requester_name", "group_id", "created_at", "origin_name", "channel"}
-	auditPackageGroupColumnsWithoutDefault = []string{"package_ids", "operation", "trigger", "requester_id", "requester_name", "group_id", "origin_name", "channel"}
+	auditPackageGroupColumns               = []string{"id", "package_ids", "operation", "trigger", "requester_id", "requester_name", "group_id", "created_at", "origin", "channel"}
+	auditPackageGroupColumnsWithoutDefault = []string{"package_ids", "operation", "trigger", "requester_id", "requester_name", "group_id", "origin", "channel"}
 	auditPackageGroupColumnsWithDefault    = []string{"id", "created_at"}
 	auditPackageGroupPrimaryKeyColumns     = []string{"id"}
 )
@@ -415,10 +415,10 @@ func (q auditPackageGroupQuery) Exists(ctx context.Context, exec boil.ContextExe
 	return count > 0, nil
 }
 
-// Origin pointed to by the foreign key.
-func (o *AuditPackageGroup) Origin(mods ...qm.QueryMod) originQuery {
+// OriginName pointed to by the foreign key.
+func (o *AuditPackageGroup) OriginName(mods ...qm.QueryMod) originQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("name=?", o.OriginName),
+		qm.Where("name=?", o.Origin),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -429,9 +429,9 @@ func (o *AuditPackageGroup) Origin(mods ...qm.QueryMod) originQuery {
 	return query
 }
 
-// LoadOrigin allows an eager lookup of values, cached into the
+// LoadOriginName allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (auditPackageGroupL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuditPackageGroup interface{}, mods queries.Applicator) error {
+func (auditPackageGroupL) LoadOriginName(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAuditPackageGroup interface{}, mods queries.Applicator) error {
 	var slice []*AuditPackageGroup
 	var object *AuditPackageGroup
 
@@ -446,8 +446,8 @@ func (auditPackageGroupL) LoadOrigin(ctx context.Context, e boil.ContextExecutor
 		if object.R == nil {
 			object.R = &auditPackageGroupR{}
 		}
-		if !queries.IsNil(object.OriginName) {
-			args = append(args, object.OriginName)
+		if !queries.IsNil(object.Origin) {
+			args = append(args, object.Origin)
 		}
 
 	} else {
@@ -458,13 +458,13 @@ func (auditPackageGroupL) LoadOrigin(ctx context.Context, e boil.ContextExecutor
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.OriginName) {
+				if queries.Equal(a, obj.Origin) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.OriginName) {
-				args = append(args, obj.OriginName)
+			if !queries.IsNil(obj.Origin) {
+				args = append(args, obj.Origin)
 			}
 
 		}
@@ -510,7 +510,7 @@ func (auditPackageGroupL) LoadOrigin(ctx context.Context, e boil.ContextExecutor
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Origin = foreign
+		object.R.OriginName = foreign
 		if foreign.R == nil {
 			foreign.R = &originR{}
 		}
@@ -520,8 +520,8 @@ func (auditPackageGroupL) LoadOrigin(ctx context.Context, e boil.ContextExecutor
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.OriginName, foreign.Name) {
-				local.R.Origin = foreign
+			if queries.Equal(local.Origin, foreign.Name) {
+				local.R.OriginName = foreign
 				if foreign.R == nil {
 					foreign.R = &originR{}
 				}
@@ -534,10 +534,10 @@ func (auditPackageGroupL) LoadOrigin(ctx context.Context, e boil.ContextExecutor
 	return nil
 }
 
-// SetOrigin of the auditPackageGroup to the related item.
-// Sets o.R.Origin to related.
+// SetOriginName of the auditPackageGroup to the related item.
+// Sets o.R.OriginName to related.
 // Adds o to related.R.OriginAPG.
-func (o *AuditPackageGroup) SetOrigin(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
+func (o *AuditPackageGroup) SetOriginName(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -547,7 +547,7 @@ func (o *AuditPackageGroup) SetOrigin(ctx context.Context, exec boil.ContextExec
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"audit_package_group\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 		strmangle.WhereClause("\"", "\"", 2, auditPackageGroupPrimaryKeyColumns),
 	)
 	values := []interface{}{related.Name, o.ID}
@@ -561,13 +561,13 @@ func (o *AuditPackageGroup) SetOrigin(ctx context.Context, exec boil.ContextExec
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.OriginName, related.Name)
+	queries.Assign(&o.Origin, related.Name)
 	if o.R == nil {
 		o.R = &auditPackageGroupR{
-			Origin: related,
+			OriginName: related,
 		}
 	} else {
-		o.R.Origin = related
+		o.R.OriginName = related
 	}
 
 	if related.R == nil {
@@ -581,24 +581,24 @@ func (o *AuditPackageGroup) SetOrigin(ctx context.Context, exec boil.ContextExec
 	return nil
 }
 
-// RemoveOrigin relationship.
-// Sets o.R.Origin to nil.
+// RemoveOriginName relationship.
+// Sets o.R.OriginName to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *AuditPackageGroup) RemoveOrigin(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
+func (o *AuditPackageGroup) RemoveOriginName(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
 	var err error
 
-	queries.SetScanner(&o.OriginName, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+	queries.SetScanner(&o.Origin, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.R.Origin = nil
+	o.R.OriginName = nil
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.OriginAPG {
-		if queries.Equal(o.OriginName, ri.OriginName) {
+		if queries.Equal(o.Origin, ri.Origin) {
 			continue
 		}
 

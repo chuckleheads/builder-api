@@ -78,6 +78,5 @@ func ConfigFromViper() (*config.Config, error) {
 	if err := viper.Unmarshal(cfg); err != nil {
 		panic(err.Error())
 	}
-	fmt.Printf("+%v", cfg)
 	return cfg, nil
 }

@@ -24,63 +24,63 @@ import (
 
 // OriginChannel is an object representing the database table.
 type OriginChannel struct {
-	ID         int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OwnerID    null.Int64  `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
-	Name       null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
-	CreatedAt  null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
-	UpdatedAt  null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
-	OriginName null.String `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	ID        int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OwnerID   int64       `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
+	Name      null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
+	CreatedAt null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
+	UpdatedAt null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
+	Origin    null.String `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 
 	R *originChannelR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L originChannelL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var OriginChannelColumns = struct {
-	ID         string
-	OwnerID    string
-	Name       string
-	CreatedAt  string
-	UpdatedAt  string
-	OriginName string
+	ID        string
+	OwnerID   string
+	Name      string
+	CreatedAt string
+	UpdatedAt string
+	Origin    string
 }{
-	ID:         "id",
-	OwnerID:    "owner_id",
-	Name:       "name",
-	CreatedAt:  "created_at",
-	UpdatedAt:  "updated_at",
-	OriginName: "origin_name",
+	ID:        "id",
+	OwnerID:   "owner_id",
+	Name:      "name",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
+	Origin:    "origin",
 }
 
 // Generated where
 
 var OriginChannelWhere = struct {
-	ID         whereHelperint64
-	OwnerID    whereHelpernull_Int64
-	Name       whereHelpernull_String
-	CreatedAt  whereHelpernull_Time
-	UpdatedAt  whereHelpernull_Time
-	OriginName whereHelpernull_String
+	ID        whereHelperint64
+	OwnerID   whereHelperint64
+	Name      whereHelpernull_String
+	CreatedAt whereHelpernull_Time
+	UpdatedAt whereHelpernull_Time
+	Origin    whereHelpernull_String
 }{
-	ID:         whereHelperint64{field: `id`},
-	OwnerID:    whereHelpernull_Int64{field: `owner_id`},
-	Name:       whereHelpernull_String{field: `name`},
-	CreatedAt:  whereHelpernull_Time{field: `created_at`},
-	UpdatedAt:  whereHelpernull_Time{field: `updated_at`},
-	OriginName: whereHelpernull_String{field: `origin_name`},
+	ID:        whereHelperint64{field: `id`},
+	OwnerID:   whereHelperint64{field: `owner_id`},
+	Name:      whereHelpernull_String{field: `name`},
+	CreatedAt: whereHelpernull_Time{field: `created_at`},
+	UpdatedAt: whereHelpernull_Time{field: `updated_at`},
+	Origin:    whereHelpernull_String{field: `origin`},
 }
 
 // OriginChannelRels is where relationship names are stored.
 var OriginChannelRels = struct {
-	Origin                       string
+	OriginName                   string
 	ChannelOriginChannelPackages string
 }{
-	Origin:                       "Origin",
+	OriginName:                   "OriginName",
 	ChannelOriginChannelPackages: "ChannelOriginChannelPackages",
 }
 
 // originChannelR is where relationships are stored.
 type originChannelR struct {
-	Origin                       *Origin
+	OriginName                   *Origin
 	ChannelOriginChannelPackages OriginChannelPackageSlice
 }
 
@@ -93,8 +93,8 @@ func (*originChannelR) NewStruct() *originChannelR {
 type originChannelL struct{}
 
 var (
-	originChannelColumns               = []string{"id", "owner_id", "name", "created_at", "updated_at", "origin_name"}
-	originChannelColumnsWithoutDefault = []string{"owner_id", "name", "origin_name"}
+	originChannelColumns               = []string{"id", "owner_id", "name", "created_at", "updated_at", "origin"}
+	originChannelColumnsWithoutDefault = []string{"owner_id", "name", "origin"}
 	originChannelColumnsWithDefault    = []string{"id", "created_at", "updated_at"}
 	originChannelPrimaryKeyColumns     = []string{"id"}
 )
@@ -374,10 +374,10 @@ func (q originChannelQuery) Exists(ctx context.Context, exec boil.ContextExecuto
 	return count > 0, nil
 }
 
-// Origin pointed to by the foreign key.
-func (o *OriginChannel) Origin(mods ...qm.QueryMod) originQuery {
+// OriginName pointed to by the foreign key.
+func (o *OriginChannel) OriginName(mods ...qm.QueryMod) originQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("name=?", o.OriginName),
+		qm.Where("name=?", o.Origin),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -409,9 +409,9 @@ func (o *OriginChannel) ChannelOriginChannelPackages(mods ...qm.QueryMod) origin
 	return query
 }
 
-// LoadOrigin allows an eager lookup of values, cached into the
+// LoadOriginName allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (originChannelL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginChannel interface{}, mods queries.Applicator) error {
+func (originChannelL) LoadOriginName(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginChannel interface{}, mods queries.Applicator) error {
 	var slice []*OriginChannel
 	var object *OriginChannel
 
@@ -426,8 +426,8 @@ func (originChannelL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 		if object.R == nil {
 			object.R = &originChannelR{}
 		}
-		if !queries.IsNil(object.OriginName) {
-			args = append(args, object.OriginName)
+		if !queries.IsNil(object.Origin) {
+			args = append(args, object.Origin)
 		}
 
 	} else {
@@ -438,13 +438,13 @@ func (originChannelL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.OriginName) {
+				if queries.Equal(a, obj.Origin) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.OriginName) {
-				args = append(args, obj.OriginName)
+			if !queries.IsNil(obj.Origin) {
+				args = append(args, obj.Origin)
 			}
 
 		}
@@ -490,7 +490,7 @@ func (originChannelL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Origin = foreign
+		object.R.OriginName = foreign
 		if foreign.R == nil {
 			foreign.R = &originR{}
 		}
@@ -500,8 +500,8 @@ func (originChannelL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, si
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.OriginName, foreign.Name) {
-				local.R.Origin = foreign
+			if queries.Equal(local.Origin, foreign.Name) {
+				local.R.OriginName = foreign
 				if foreign.R == nil {
 					foreign.R = &originR{}
 				}
@@ -609,10 +609,10 @@ func (originChannelL) LoadChannelOriginChannelPackages(ctx context.Context, e bo
 	return nil
 }
 
-// SetOrigin of the originChannel to the related item.
-// Sets o.R.Origin to related.
+// SetOriginName of the originChannel to the related item.
+// Sets o.R.OriginName to related.
 // Adds o to related.R.OriginOC.
-func (o *OriginChannel) SetOrigin(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
+func (o *OriginChannel) SetOriginName(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -622,7 +622,7 @@ func (o *OriginChannel) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"origin_channels\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 		strmangle.WhereClause("\"", "\"", 2, originChannelPrimaryKeyColumns),
 	)
 	values := []interface{}{related.Name, o.ID}
@@ -636,13 +636,13 @@ func (o *OriginChannel) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.OriginName, related.Name)
+	queries.Assign(&o.Origin, related.Name)
 	if o.R == nil {
 		o.R = &originChannelR{
-			Origin: related,
+			OriginName: related,
 		}
 	} else {
-		o.R.Origin = related
+		o.R.OriginName = related
 	}
 
 	if related.R == nil {
@@ -656,24 +656,24 @@ func (o *OriginChannel) SetOrigin(ctx context.Context, exec boil.ContextExecutor
 	return nil
 }
 
-// RemoveOrigin relationship.
-// Sets o.R.Origin to nil.
+// RemoveOriginName relationship.
+// Sets o.R.OriginName to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *OriginChannel) RemoveOrigin(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
+func (o *OriginChannel) RemoveOriginName(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
 	var err error
 
-	queries.SetScanner(&o.OriginName, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+	queries.SetScanner(&o.Origin, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.R.Origin = nil
+	o.R.OriginName = nil
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.OriginOC {
-		if queries.Equal(o.OriginName, ri.OriginName) {
+		if queries.Equal(o.Origin, ri.Origin) {
 			continue
 		}
 

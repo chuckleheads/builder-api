@@ -25,7 +25,7 @@ import (
 // OriginIntegration is an object representing the database table.
 type OriginIntegration struct {
 	ID          int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OriginName  null.String `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	Origin      null.String `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 	Integration null.String `boil:"integration" json:"integration,omitempty" toml:"integration" yaml:"integration,omitempty"`
 	Name        null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
 	Body        null.String `boil:"body" json:"body,omitempty" toml:"body" yaml:"body,omitempty"`
@@ -38,7 +38,7 @@ type OriginIntegration struct {
 
 var OriginIntegrationColumns = struct {
 	ID          string
-	OriginName  string
+	Origin      string
 	Integration string
 	Name        string
 	Body        string
@@ -46,7 +46,7 @@ var OriginIntegrationColumns = struct {
 	UpdatedAt   string
 }{
 	ID:          "id",
-	OriginName:  "origin_name",
+	Origin:      "origin",
 	Integration: "integration",
 	Name:        "name",
 	Body:        "body",
@@ -58,7 +58,7 @@ var OriginIntegrationColumns = struct {
 
 var OriginIntegrationWhere = struct {
 	ID          whereHelperint64
-	OriginName  whereHelpernull_String
+	Origin      whereHelpernull_String
 	Integration whereHelpernull_String
 	Name        whereHelpernull_String
 	Body        whereHelpernull_String
@@ -66,7 +66,7 @@ var OriginIntegrationWhere = struct {
 	UpdatedAt   whereHelpernull_Time
 }{
 	ID:          whereHelperint64{field: `id`},
-	OriginName:  whereHelpernull_String{field: `origin_name`},
+	Origin:      whereHelpernull_String{field: `origin`},
 	Integration: whereHelpernull_String{field: `integration`},
 	Name:        whereHelpernull_String{field: `name`},
 	Body:        whereHelpernull_String{field: `body`},
@@ -95,8 +95,8 @@ func (*originIntegrationR) NewStruct() *originIntegrationR {
 type originIntegrationL struct{}
 
 var (
-	originIntegrationColumns               = []string{"id", "origin_name", "integration", "name", "body", "created_at", "updated_at"}
-	originIntegrationColumnsWithoutDefault = []string{"origin_name", "integration", "name", "body"}
+	originIntegrationColumns               = []string{"id", "origin", "integration", "name", "body", "created_at", "updated_at"}
+	originIntegrationColumnsWithoutDefault = []string{"origin", "integration", "name", "body"}
 	originIntegrationColumnsWithDefault    = []string{"id", "created_at", "updated_at"}
 	originIntegrationPrimaryKeyColumns     = []string{"id"}
 )

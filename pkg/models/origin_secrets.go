@@ -24,66 +24,66 @@ import (
 
 // OriginSecret is an object representing the database table.
 type OriginSecret struct {
-	ID         int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OwnerID    null.Int64  `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
-	Name       null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
-	Value      null.String `boil:"value" json:"value,omitempty" toml:"value" yaml:"value,omitempty"`
-	CreatedAt  null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
-	UpdatedAt  null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
-	OriginName null.String `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	ID        int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
+	OwnerID   int64       `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
+	Name      null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
+	Value     null.String `boil:"value" json:"value,omitempty" toml:"value" yaml:"value,omitempty"`
+	CreatedAt null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
+	UpdatedAt null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
+	Origin    null.String `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 
 	R *originSecretR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L originSecretL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var OriginSecretColumns = struct {
-	ID         string
-	OwnerID    string
-	Name       string
-	Value      string
-	CreatedAt  string
-	UpdatedAt  string
-	OriginName string
+	ID        string
+	OwnerID   string
+	Name      string
+	Value     string
+	CreatedAt string
+	UpdatedAt string
+	Origin    string
 }{
-	ID:         "id",
-	OwnerID:    "owner_id",
-	Name:       "name",
-	Value:      "value",
-	CreatedAt:  "created_at",
-	UpdatedAt:  "updated_at",
-	OriginName: "origin_name",
+	ID:        "id",
+	OwnerID:   "owner_id",
+	Name:      "name",
+	Value:     "value",
+	CreatedAt: "created_at",
+	UpdatedAt: "updated_at",
+	Origin:    "origin",
 }
 
 // Generated where
 
 var OriginSecretWhere = struct {
-	ID         whereHelperint64
-	OwnerID    whereHelpernull_Int64
-	Name       whereHelpernull_String
-	Value      whereHelpernull_String
-	CreatedAt  whereHelpernull_Time
-	UpdatedAt  whereHelpernull_Time
-	OriginName whereHelpernull_String
+	ID        whereHelperint64
+	OwnerID   whereHelperint64
+	Name      whereHelpernull_String
+	Value     whereHelpernull_String
+	CreatedAt whereHelpernull_Time
+	UpdatedAt whereHelpernull_Time
+	Origin    whereHelpernull_String
 }{
-	ID:         whereHelperint64{field: `id`},
-	OwnerID:    whereHelpernull_Int64{field: `owner_id`},
-	Name:       whereHelpernull_String{field: `name`},
-	Value:      whereHelpernull_String{field: `value`},
-	CreatedAt:  whereHelpernull_Time{field: `created_at`},
-	UpdatedAt:  whereHelpernull_Time{field: `updated_at`},
-	OriginName: whereHelpernull_String{field: `origin_name`},
+	ID:        whereHelperint64{field: `id`},
+	OwnerID:   whereHelperint64{field: `owner_id`},
+	Name:      whereHelpernull_String{field: `name`},
+	Value:     whereHelpernull_String{field: `value`},
+	CreatedAt: whereHelpernull_Time{field: `created_at`},
+	UpdatedAt: whereHelpernull_Time{field: `updated_at`},
+	Origin:    whereHelpernull_String{field: `origin`},
 }
 
 // OriginSecretRels is where relationship names are stored.
 var OriginSecretRels = struct {
-	Origin string
+	OriginName string
 }{
-	Origin: "Origin",
+	OriginName: "OriginName",
 }
 
 // originSecretR is where relationships are stored.
 type originSecretR struct {
-	Origin *Origin
+	OriginName *Origin
 }
 
 // NewStruct creates a new relationship struct
@@ -95,8 +95,8 @@ func (*originSecretR) NewStruct() *originSecretR {
 type originSecretL struct{}
 
 var (
-	originSecretColumns               = []string{"id", "owner_id", "name", "value", "created_at", "updated_at", "origin_name"}
-	originSecretColumnsWithoutDefault = []string{"owner_id", "name", "value", "origin_name"}
+	originSecretColumns               = []string{"id", "owner_id", "name", "value", "created_at", "updated_at", "origin"}
+	originSecretColumnsWithoutDefault = []string{"owner_id", "name", "value", "origin"}
 	originSecretColumnsWithDefault    = []string{"id", "created_at", "updated_at"}
 	originSecretPrimaryKeyColumns     = []string{"id"}
 )
@@ -376,10 +376,10 @@ func (q originSecretQuery) Exists(ctx context.Context, exec boil.ContextExecutor
 	return count > 0, nil
 }
 
-// Origin pointed to by the foreign key.
-func (o *OriginSecret) Origin(mods ...qm.QueryMod) originQuery {
+// OriginName pointed to by the foreign key.
+func (o *OriginSecret) OriginName(mods ...qm.QueryMod) originQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("name=?", o.OriginName),
+		qm.Where("name=?", o.Origin),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -390,9 +390,9 @@ func (o *OriginSecret) Origin(mods ...qm.QueryMod) originQuery {
 	return query
 }
 
-// LoadOrigin allows an eager lookup of values, cached into the
+// LoadOriginName allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (originSecretL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginSecret interface{}, mods queries.Applicator) error {
+func (originSecretL) LoadOriginName(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginSecret interface{}, mods queries.Applicator) error {
 	var slice []*OriginSecret
 	var object *OriginSecret
 
@@ -407,8 +407,8 @@ func (originSecretL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, sin
 		if object.R == nil {
 			object.R = &originSecretR{}
 		}
-		if !queries.IsNil(object.OriginName) {
-			args = append(args, object.OriginName)
+		if !queries.IsNil(object.Origin) {
+			args = append(args, object.Origin)
 		}
 
 	} else {
@@ -419,13 +419,13 @@ func (originSecretL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, sin
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.OriginName) {
+				if queries.Equal(a, obj.Origin) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.OriginName) {
-				args = append(args, obj.OriginName)
+			if !queries.IsNil(obj.Origin) {
+				args = append(args, obj.Origin)
 			}
 
 		}
@@ -471,7 +471,7 @@ func (originSecretL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, sin
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Origin = foreign
+		object.R.OriginName = foreign
 		if foreign.R == nil {
 			foreign.R = &originR{}
 		}
@@ -481,8 +481,8 @@ func (originSecretL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, sin
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.OriginName, foreign.Name) {
-				local.R.Origin = foreign
+			if queries.Equal(local.Origin, foreign.Name) {
+				local.R.OriginName = foreign
 				if foreign.R == nil {
 					foreign.R = &originR{}
 				}
@@ -495,10 +495,10 @@ func (originSecretL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, sin
 	return nil
 }
 
-// SetOrigin of the originSecret to the related item.
-// Sets o.R.Origin to related.
+// SetOriginName of the originSecret to the related item.
+// Sets o.R.OriginName to related.
 // Adds o to related.R.OriginOS.
-func (o *OriginSecret) SetOrigin(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
+func (o *OriginSecret) SetOriginName(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -508,7 +508,7 @@ func (o *OriginSecret) SetOrigin(ctx context.Context, exec boil.ContextExecutor,
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"origin_secrets\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 		strmangle.WhereClause("\"", "\"", 2, originSecretPrimaryKeyColumns),
 	)
 	values := []interface{}{related.Name, o.ID}
@@ -522,13 +522,13 @@ func (o *OriginSecret) SetOrigin(ctx context.Context, exec boil.ContextExecutor,
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.OriginName, related.Name)
+	queries.Assign(&o.Origin, related.Name)
 	if o.R == nil {
 		o.R = &originSecretR{
-			Origin: related,
+			OriginName: related,
 		}
 	} else {
-		o.R.Origin = related
+		o.R.OriginName = related
 	}
 
 	if related.R == nil {
@@ -542,24 +542,24 @@ func (o *OriginSecret) SetOrigin(ctx context.Context, exec boil.ContextExecutor,
 	return nil
 }
 
-// RemoveOrigin relationship.
-// Sets o.R.Origin to nil.
+// RemoveOriginName relationship.
+// Sets o.R.OriginName to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *OriginSecret) RemoveOrigin(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
+func (o *OriginSecret) RemoveOriginName(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
 	var err error
 
-	queries.SetScanner(&o.OriginName, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+	queries.SetScanner(&o.Origin, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.R.Origin = nil
+	o.R.OriginName = nil
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.OriginOS {
-		if queries.Equal(o.OriginName, ri.OriginName) {
+		if queries.Equal(o.Origin, ri.Origin) {
 			continue
 		}
 

@@ -33,6 +33,7 @@ func (ar AuthenticateResource) authenticate(w http.ResponseWriter, r *http.Reque
 		render.Render(w, r, ErrInvalidRequest(err))
 		return
 	}
+
 	render.PlainText(w, r, token.AccessToken)
 }
 

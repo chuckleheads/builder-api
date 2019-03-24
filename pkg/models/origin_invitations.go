@@ -25,10 +25,10 @@ import (
 // OriginInvitation is an object representing the database table.
 type OriginInvitation struct {
 	ID          int64       `boil:"id" json:"id" toml:"id" yaml:"id"`
-	OriginName  null.String `boil:"origin_name" json:"origin_name,omitempty" toml:"origin_name" yaml:"origin_name,omitempty"`
+	Origin      null.String `boil:"origin" json:"origin,omitempty" toml:"origin" yaml:"origin,omitempty"`
 	AccountID   null.Int64  `boil:"account_id" json:"account_id,omitempty" toml:"account_id" yaml:"account_id,omitempty"`
 	AccountName null.String `boil:"account_name" json:"account_name,omitempty" toml:"account_name" yaml:"account_name,omitempty"`
-	OwnerID     null.Int64  `boil:"owner_id" json:"owner_id,omitempty" toml:"owner_id" yaml:"owner_id,omitempty"`
+	OwnerID     int64       `boil:"owner_id" json:"owner_id" toml:"owner_id" yaml:"owner_id"`
 	Ignored     null.Bool   `boil:"ignored" json:"ignored,omitempty" toml:"ignored" yaml:"ignored,omitempty"`
 	CreatedAt   null.Time   `boil:"created_at" json:"created_at,omitempty" toml:"created_at" yaml:"created_at,omitempty"`
 	UpdatedAt   null.Time   `boil:"updated_at" json:"updated_at,omitempty" toml:"updated_at" yaml:"updated_at,omitempty"`
@@ -39,7 +39,7 @@ type OriginInvitation struct {
 
 var OriginInvitationColumns = struct {
 	ID          string
-	OriginName  string
+	Origin      string
 	AccountID   string
 	AccountName string
 	OwnerID     string
@@ -48,7 +48,7 @@ var OriginInvitationColumns = struct {
 	UpdatedAt   string
 }{
 	ID:          "id",
-	OriginName:  "origin_name",
+	Origin:      "origin",
 	AccountID:   "account_id",
 	AccountName: "account_name",
 	OwnerID:     "owner_id",
@@ -61,19 +61,19 @@ var OriginInvitationColumns = struct {
 
 var OriginInvitationWhere = struct {
 	ID          whereHelperint64
-	OriginName  whereHelpernull_String
+	Origin      whereHelpernull_String
 	AccountID   whereHelpernull_Int64
 	AccountName whereHelpernull_String
-	OwnerID     whereHelpernull_Int64
+	OwnerID     whereHelperint64
 	Ignored     whereHelpernull_Bool
 	CreatedAt   whereHelpernull_Time
 	UpdatedAt   whereHelpernull_Time
 }{
 	ID:          whereHelperint64{field: `id`},
-	OriginName:  whereHelpernull_String{field: `origin_name`},
+	Origin:      whereHelpernull_String{field: `origin`},
 	AccountID:   whereHelpernull_Int64{field: `account_id`},
 	AccountName: whereHelpernull_String{field: `account_name`},
-	OwnerID:     whereHelpernull_Int64{field: `owner_id`},
+	OwnerID:     whereHelperint64{field: `owner_id`},
 	Ignored:     whereHelpernull_Bool{field: `ignored`},
 	CreatedAt:   whereHelpernull_Time{field: `created_at`},
 	UpdatedAt:   whereHelpernull_Time{field: `updated_at`},
@@ -81,14 +81,14 @@ var OriginInvitationWhere = struct {
 
 // OriginInvitationRels is where relationship names are stored.
 var OriginInvitationRels = struct {
-	Origin string
+	OriginName string
 }{
-	Origin: "Origin",
+	OriginName: "OriginName",
 }
 
 // originInvitationR is where relationships are stored.
 type originInvitationR struct {
-	Origin *Origin
+	OriginName *Origin
 }
 
 // NewStruct creates a new relationship struct
@@ -100,8 +100,8 @@ func (*originInvitationR) NewStruct() *originInvitationR {
 type originInvitationL struct{}
 
 var (
-	originInvitationColumns               = []string{"id", "origin_name", "account_id", "account_name", "owner_id", "ignored", "created_at", "updated_at"}
-	originInvitationColumnsWithoutDefault = []string{"origin_name", "account_id", "account_name", "owner_id"}
+	originInvitationColumns               = []string{"id", "origin", "account_id", "account_name", "owner_id", "ignored", "created_at", "updated_at"}
+	originInvitationColumnsWithoutDefault = []string{"origin", "account_id", "account_name", "owner_id"}
 	originInvitationColumnsWithDefault    = []string{"id", "ignored", "created_at", "updated_at"}
 	originInvitationPrimaryKeyColumns     = []string{"id"}
 )
@@ -381,10 +381,10 @@ func (q originInvitationQuery) Exists(ctx context.Context, exec boil.ContextExec
 	return count > 0, nil
 }
 
-// Origin pointed to by the foreign key.
-func (o *OriginInvitation) Origin(mods ...qm.QueryMod) originQuery {
+// OriginName pointed to by the foreign key.
+func (o *OriginInvitation) OriginName(mods ...qm.QueryMod) originQuery {
 	queryMods := []qm.QueryMod{
-		qm.Where("name=?", o.OriginName),
+		qm.Where("name=?", o.Origin),
 	}
 
 	queryMods = append(queryMods, mods...)
@@ -395,9 +395,9 @@ func (o *OriginInvitation) Origin(mods ...qm.QueryMod) originQuery {
 	return query
 }
 
-// LoadOrigin allows an eager lookup of values, cached into the
+// LoadOriginName allows an eager lookup of values, cached into the
 // loaded structs of the objects. This is for an N-1 relationship.
-func (originInvitationL) LoadOrigin(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginInvitation interface{}, mods queries.Applicator) error {
+func (originInvitationL) LoadOriginName(ctx context.Context, e boil.ContextExecutor, singular bool, maybeOriginInvitation interface{}, mods queries.Applicator) error {
 	var slice []*OriginInvitation
 	var object *OriginInvitation
 
@@ -412,8 +412,8 @@ func (originInvitationL) LoadOrigin(ctx context.Context, e boil.ContextExecutor,
 		if object.R == nil {
 			object.R = &originInvitationR{}
 		}
-		if !queries.IsNil(object.OriginName) {
-			args = append(args, object.OriginName)
+		if !queries.IsNil(object.Origin) {
+			args = append(args, object.Origin)
 		}
 
 	} else {
@@ -424,13 +424,13 @@ func (originInvitationL) LoadOrigin(ctx context.Context, e boil.ContextExecutor,
 			}
 
 			for _, a := range args {
-				if queries.Equal(a, obj.OriginName) {
+				if queries.Equal(a, obj.Origin) {
 					continue Outer
 				}
 			}
 
-			if !queries.IsNil(obj.OriginName) {
-				args = append(args, obj.OriginName)
+			if !queries.IsNil(obj.Origin) {
+				args = append(args, obj.Origin)
 			}
 
 		}
@@ -476,7 +476,7 @@ func (originInvitationL) LoadOrigin(ctx context.Context, e boil.ContextExecutor,
 
 	if singular {
 		foreign := resultSlice[0]
-		object.R.Origin = foreign
+		object.R.OriginName = foreign
 		if foreign.R == nil {
 			foreign.R = &originR{}
 		}
@@ -486,8 +486,8 @@ func (originInvitationL) LoadOrigin(ctx context.Context, e boil.ContextExecutor,
 
 	for _, local := range slice {
 		for _, foreign := range resultSlice {
-			if queries.Equal(local.OriginName, foreign.Name) {
-				local.R.Origin = foreign
+			if queries.Equal(local.Origin, foreign.Name) {
+				local.R.OriginName = foreign
 				if foreign.R == nil {
 					foreign.R = &originR{}
 				}
@@ -500,10 +500,10 @@ func (originInvitationL) LoadOrigin(ctx context.Context, e boil.ContextExecutor,
 	return nil
 }
 
-// SetOrigin of the originInvitation to the related item.
-// Sets o.R.Origin to related.
+// SetOriginName of the originInvitation to the related item.
+// Sets o.R.OriginName to related.
 // Adds o to related.R.OriginOI.
-func (o *OriginInvitation) SetOrigin(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
+func (o *OriginInvitation) SetOriginName(ctx context.Context, exec boil.ContextExecutor, insert bool, related *Origin) error {
 	var err error
 	if insert {
 		if err = related.Insert(ctx, exec, boil.Infer()); err != nil {
@@ -513,7 +513,7 @@ func (o *OriginInvitation) SetOrigin(ctx context.Context, exec boil.ContextExecu
 
 	updateQuery := fmt.Sprintf(
 		"UPDATE \"origin_invitations\" SET %s WHERE %s",
-		strmangle.SetParamNames("\"", "\"", 1, []string{"origin_name"}),
+		strmangle.SetParamNames("\"", "\"", 1, []string{"origin"}),
 		strmangle.WhereClause("\"", "\"", 2, originInvitationPrimaryKeyColumns),
 	)
 	values := []interface{}{related.Name, o.ID}
@@ -527,13 +527,13 @@ func (o *OriginInvitation) SetOrigin(ctx context.Context, exec boil.ContextExecu
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	queries.Assign(&o.OriginName, related.Name)
+	queries.Assign(&o.Origin, related.Name)
 	if o.R == nil {
 		o.R = &originInvitationR{
-			Origin: related,
+			OriginName: related,
 		}
 	} else {
-		o.R.Origin = related
+		o.R.OriginName = related
 	}
 
 	if related.R == nil {
@@ -547,24 +547,24 @@ func (o *OriginInvitation) SetOrigin(ctx context.Context, exec boil.ContextExecu
 	return nil
 }
 
-// RemoveOrigin relationship.
-// Sets o.R.Origin to nil.
+// RemoveOriginName relationship.
+// Sets o.R.OriginName to nil.
 // Removes o from all passed in related items' relationships struct (Optional).
-func (o *OriginInvitation) RemoveOrigin(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
+func (o *OriginInvitation) RemoveOriginName(ctx context.Context, exec boil.ContextExecutor, related *Origin) error {
 	var err error
 
-	queries.SetScanner(&o.OriginName, nil)
-	if _, err = o.Update(ctx, exec, boil.Whitelist("origin_name")); err != nil {
+	queries.SetScanner(&o.Origin, nil)
+	if _, err = o.Update(ctx, exec, boil.Whitelist("origin")); err != nil {
 		return errors.Wrap(err, "failed to update local table")
 	}
 
-	o.R.Origin = nil
+	o.R.OriginName = nil
 	if related == nil || related.R == nil {
 		return nil
 	}
 
 	for i, ri := range related.R.OriginOI {
-		if queries.Equal(o.OriginName, ri.OriginName) {
+		if queries.Equal(o.Origin, ri.Origin) {
 			continue
 		}
 

@@ -349,22 +349,22 @@ func TestInsert(t *testing.T) {
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOne(t *testing.T) {
-	t.Run("AuditPackageToOriginUsingOrigin", testAuditPackageToOneOriginUsingOrigin)
-	t.Run("AuditPackageGroupToOriginUsingOrigin", testAuditPackageGroupToOneOriginUsingOrigin)
+	t.Run("AuditPackageToOriginUsingOriginName", testAuditPackageToOneOriginUsingOriginName)
+	t.Run("AuditPackageGroupToOriginUsingOriginName", testAuditPackageGroupToOneOriginUsingOriginName)
 	t.Run("OriginChannelPackageToOriginChannelUsingChannel", testOriginChannelPackageToOneOriginChannelUsingChannel)
 	t.Run("OriginChannelPackageToOriginPackageUsingPackage", testOriginChannelPackageToOneOriginPackageUsingPackage)
-	t.Run("OriginChannelToOriginUsingOrigin", testOriginChannelToOneOriginUsingOrigin)
-	t.Run("OriginInvitationToOriginUsingOrigin", testOriginInvitationToOneOriginUsingOrigin)
-	t.Run("OriginMemberToOriginUsingOrigin", testOriginMemberToOneOriginUsingOrigin)
-	t.Run("OriginPackageToOriginUsingOrigin", testOriginPackageToOneOriginUsingOrigin)
-	t.Run("OriginPrivateEncryptionKeyToOriginUsingOrigin", testOriginPrivateEncryptionKeyToOneOriginUsingOrigin)
+	t.Run("OriginChannelToOriginUsingOriginName", testOriginChannelToOneOriginUsingOriginName)
+	t.Run("OriginInvitationToOriginUsingOriginName", testOriginInvitationToOneOriginUsingOriginName)
+	t.Run("OriginMemberToOriginUsingOriginName", testOriginMemberToOneOriginUsingOriginName)
+	t.Run("OriginPackageToOriginUsingOriginName", testOriginPackageToOneOriginUsingOriginName)
+	t.Run("OriginPrivateEncryptionKeyToOriginUsingOriginName", testOriginPrivateEncryptionKeyToOneOriginUsingOriginName)
 	t.Run("OriginProjectIntegrationToOriginIntegrationUsingIntegration", testOriginProjectIntegrationToOneOriginIntegrationUsingIntegration)
 	t.Run("OriginProjectIntegrationToOriginProjectUsingProject", testOriginProjectIntegrationToOneOriginProjectUsingProject)
-	t.Run("OriginProjectToOriginUsingOrigin", testOriginProjectToOneOriginUsingOrigin)
-	t.Run("OriginPublicEncryptionKeyToOriginUsingOrigin", testOriginPublicEncryptionKeyToOneOriginUsingOrigin)
-	t.Run("OriginPublicKeyToOriginUsingOrigin", testOriginPublicKeyToOneOriginUsingOrigin)
-	t.Run("OriginSecretKeyToOriginUsingOrigin", testOriginSecretKeyToOneOriginUsingOrigin)
-	t.Run("OriginSecretToOriginUsingOrigin", testOriginSecretToOneOriginUsingOrigin)
+	t.Run("OriginProjectToOriginUsingOriginName", testOriginProjectToOneOriginUsingOriginName)
+	t.Run("OriginPublicEncryptionKeyToOriginUsingOriginName", testOriginPublicEncryptionKeyToOneOriginUsingOriginName)
+	t.Run("OriginPublicKeyToOriginUsingOriginName", testOriginPublicKeyToOneOriginUsingOriginName)
+	t.Run("OriginSecretKeyToOriginUsingOriginName", testOriginSecretKeyToOneOriginUsingOriginName)
+	t.Run("OriginSecretToOriginUsingOriginName", testOriginSecretToOneOriginUsingOriginName)
 }
 
 // TestOneToOne tests cannot be run in parallel
@@ -395,39 +395,39 @@ func TestToMany(t *testing.T) {
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneSet(t *testing.T) {
-	t.Run("AuditPackageToOriginUsingOriginAP", testAuditPackageToOneSetOpOriginUsingOrigin)
-	t.Run("AuditPackageGroupToOriginUsingOriginAPG", testAuditPackageGroupToOneSetOpOriginUsingOrigin)
+	t.Run("AuditPackageToOriginUsingOriginAP", testAuditPackageToOneSetOpOriginUsingOriginName)
+	t.Run("AuditPackageGroupToOriginUsingOriginAPG", testAuditPackageGroupToOneSetOpOriginUsingOriginName)
 	t.Run("OriginChannelPackageToOriginChannelUsingChannelOriginChannelPackages", testOriginChannelPackageToOneSetOpOriginChannelUsingChannel)
 	t.Run("OriginChannelPackageToOriginPackageUsingPackageOriginChannelPackages", testOriginChannelPackageToOneSetOpOriginPackageUsingPackage)
-	t.Run("OriginChannelToOriginUsingOriginOC", testOriginChannelToOneSetOpOriginUsingOrigin)
-	t.Run("OriginInvitationToOriginUsingOriginOI", testOriginInvitationToOneSetOpOriginUsingOrigin)
-	t.Run("OriginMemberToOriginUsingOriginOM", testOriginMemberToOneSetOpOriginUsingOrigin)
-	t.Run("OriginPackageToOriginUsingOriginOPA", testOriginPackageToOneSetOpOriginUsingOrigin)
-	t.Run("OriginPrivateEncryptionKeyToOriginUsingOriginOPREK", testOriginPrivateEncryptionKeyToOneSetOpOriginUsingOrigin)
+	t.Run("OriginChannelToOriginUsingOriginOC", testOriginChannelToOneSetOpOriginUsingOriginName)
+	t.Run("OriginInvitationToOriginUsingOriginOI", testOriginInvitationToOneSetOpOriginUsingOriginName)
+	t.Run("OriginMemberToOriginUsingOriginOM", testOriginMemberToOneSetOpOriginUsingOriginName)
+	t.Run("OriginPackageToOriginUsingOriginOPA", testOriginPackageToOneSetOpOriginUsingOriginName)
+	t.Run("OriginPrivateEncryptionKeyToOriginUsingOriginOPREK", testOriginPrivateEncryptionKeyToOneSetOpOriginUsingOriginName)
 	t.Run("OriginProjectIntegrationToOriginIntegrationUsingIntegrationOriginProjectIntegrations", testOriginProjectIntegrationToOneSetOpOriginIntegrationUsingIntegration)
 	t.Run("OriginProjectIntegrationToOriginProjectUsingProjectOriginProjectIntegrations", testOriginProjectIntegrationToOneSetOpOriginProjectUsingProject)
-	t.Run("OriginProjectToOriginUsingOriginOPR", testOriginProjectToOneSetOpOriginUsingOrigin)
-	t.Run("OriginPublicEncryptionKeyToOriginUsingOriginOPUEK", testOriginPublicEncryptionKeyToOneSetOpOriginUsingOrigin)
-	t.Run("OriginPublicKeyToOriginUsingOriginOPK", testOriginPublicKeyToOneSetOpOriginUsingOrigin)
-	t.Run("OriginSecretKeyToOriginUsingOriginOSK", testOriginSecretKeyToOneSetOpOriginUsingOrigin)
-	t.Run("OriginSecretToOriginUsingOriginOS", testOriginSecretToOneSetOpOriginUsingOrigin)
+	t.Run("OriginProjectToOriginUsingOriginOPR", testOriginProjectToOneSetOpOriginUsingOriginName)
+	t.Run("OriginPublicEncryptionKeyToOriginUsingOriginOPUEK", testOriginPublicEncryptionKeyToOneSetOpOriginUsingOriginName)
+	t.Run("OriginPublicKeyToOriginUsingOriginOPK", testOriginPublicKeyToOneSetOpOriginUsingOriginName)
+	t.Run("OriginSecretKeyToOriginUsingOriginOSK", testOriginSecretKeyToOneSetOpOriginUsingOriginName)
+	t.Run("OriginSecretToOriginUsingOriginOS", testOriginSecretToOneSetOpOriginUsingOriginName)
 }
 
 // TestToOneRemove tests cannot be run in parallel
 // or deadlocks can occur.
 func TestToOneRemove(t *testing.T) {
-	t.Run("AuditPackageToOriginUsingOriginAP", testAuditPackageToOneRemoveOpOriginUsingOrigin)
-	t.Run("AuditPackageGroupToOriginUsingOriginAPG", testAuditPackageGroupToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginChannelToOriginUsingOriginOC", testOriginChannelToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginInvitationToOriginUsingOriginOI", testOriginInvitationToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginMemberToOriginUsingOriginOM", testOriginMemberToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginPackageToOriginUsingOriginOPA", testOriginPackageToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginPrivateEncryptionKeyToOriginUsingOriginOPREK", testOriginPrivateEncryptionKeyToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginProjectToOriginUsingOriginOPR", testOriginProjectToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginPublicEncryptionKeyToOriginUsingOriginOPUEK", testOriginPublicEncryptionKeyToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginPublicKeyToOriginUsingOriginOPK", testOriginPublicKeyToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginSecretKeyToOriginUsingOriginOSK", testOriginSecretKeyToOneRemoveOpOriginUsingOrigin)
-	t.Run("OriginSecretToOriginUsingOriginOS", testOriginSecretToOneRemoveOpOriginUsingOrigin)
+	t.Run("AuditPackageToOriginUsingOriginAP", testAuditPackageToOneRemoveOpOriginUsingOriginName)
+	t.Run("AuditPackageGroupToOriginUsingOriginAPG", testAuditPackageGroupToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginChannelToOriginUsingOriginOC", testOriginChannelToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginInvitationToOriginUsingOriginOI", testOriginInvitationToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginMemberToOriginUsingOriginOM", testOriginMemberToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginPackageToOriginUsingOriginOPA", testOriginPackageToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginPrivateEncryptionKeyToOriginUsingOriginOPREK", testOriginPrivateEncryptionKeyToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginProjectToOriginUsingOriginOPR", testOriginProjectToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginPublicEncryptionKeyToOriginUsingOriginOPUEK", testOriginPublicEncryptionKeyToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginPublicKeyToOriginUsingOriginOPK", testOriginPublicKeyToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginSecretKeyToOriginUsingOriginOSK", testOriginSecretKeyToOneRemoveOpOriginUsingOriginName)
+	t.Run("OriginSecretToOriginUsingOriginOS", testOriginSecretToOneRemoveOpOriginUsingOriginName)
 }
 
 // TestOneToOneSet tests cannot be run in parallel

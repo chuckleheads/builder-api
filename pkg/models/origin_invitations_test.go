@@ -494,7 +494,7 @@ func testOriginInvitationsInsertWhitelist(t *testing.T) {
 	}
 }
 
-func testOriginInvitationToOneOriginUsingOrigin(t *testing.T) {
+func testOriginInvitationToOneOriginUsingOriginName(t *testing.T) {
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
@@ -514,12 +514,12 @@ func testOriginInvitationToOneOriginUsingOrigin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&local.OriginName, foreign.Name)
+	queries.Assign(&local.Origin, foreign.Name)
 	if err := local.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	check, err := local.Origin().One(ctx, tx)
+	check, err := local.OriginName().One(ctx, tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -529,23 +529,23 @@ func testOriginInvitationToOneOriginUsingOrigin(t *testing.T) {
 	}
 
 	slice := OriginInvitationSlice{&local}
-	if err = local.L.LoadOrigin(ctx, tx, false, (*[]*OriginInvitation)(&slice), nil); err != nil {
+	if err = local.L.LoadOriginName(ctx, tx, false, (*[]*OriginInvitation)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Origin == nil {
+	if local.R.OriginName == nil {
 		t.Error("struct should have been eager loaded")
 	}
 
-	local.R.Origin = nil
-	if err = local.L.LoadOrigin(ctx, tx, true, &local, nil); err != nil {
+	local.R.OriginName = nil
+	if err = local.L.LoadOriginName(ctx, tx, true, &local, nil); err != nil {
 		t.Fatal(err)
 	}
-	if local.R.Origin == nil {
+	if local.R.OriginName == nil {
 		t.Error("struct should have been eager loaded")
 	}
 }
 
-func testOriginInvitationToOneSetOpOriginUsingOrigin(t *testing.T) {
+func testOriginInvitationToOneSetOpOriginUsingOriginName(t *testing.T) {
 	var err error
 
 	ctx := context.Background()
@@ -574,36 +574,36 @@ func testOriginInvitationToOneSetOpOriginUsingOrigin(t *testing.T) {
 	}
 
 	for i, x := range []*Origin{&b, &c} {
-		err = a.SetOrigin(ctx, tx, i != 0, x)
+		err = a.SetOriginName(ctx, tx, i != 0, x)
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		if a.R.Origin != x {
+		if a.R.OriginName != x {
 			t.Error("relationship struct not set to correct value")
 		}
 
 		if x.R.OriginOI[0] != &a {
 			t.Error("failed to append to foreign relationship struct")
 		}
-		if !queries.Equal(a.OriginName, x.Name) {
-			t.Error("foreign key was wrong value", a.OriginName)
+		if !queries.Equal(a.Origin, x.Name) {
+			t.Error("foreign key was wrong value", a.Origin)
 		}
 
-		zero := reflect.Zero(reflect.TypeOf(a.OriginName))
-		reflect.Indirect(reflect.ValueOf(&a.OriginName)).Set(zero)
+		zero := reflect.Zero(reflect.TypeOf(a.Origin))
+		reflect.Indirect(reflect.ValueOf(&a.Origin)).Set(zero)
 
 		if err = a.Reload(ctx, tx); err != nil {
 			t.Fatal("failed to reload", err)
 		}
 
-		if !queries.Equal(a.OriginName, x.Name) {
-			t.Error("foreign key was wrong value", a.OriginName, x.Name)
+		if !queries.Equal(a.Origin, x.Name) {
+			t.Error("foreign key was wrong value", a.Origin, x.Name)
 		}
 	}
 }
 
-func testOriginInvitationToOneRemoveOpOriginUsingOrigin(t *testing.T) {
+func testOriginInvitationToOneRemoveOpOriginUsingOriginName(t *testing.T) {
 	var err error
 
 	ctx := context.Background()
@@ -625,15 +625,15 @@ func testOriginInvitationToOneRemoveOpOriginUsingOrigin(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if err = a.SetOrigin(ctx, tx, true, &b); err != nil {
+	if err = a.SetOriginName(ctx, tx, true, &b); err != nil {
 		t.Fatal(err)
 	}
 
-	if err = a.RemoveOrigin(ctx, tx, &b); err != nil {
+	if err = a.RemoveOriginName(ctx, tx, &b); err != nil {
 		t.Error("failed to remove relationship")
 	}
 
-	count, err := a.Origin().Count(ctx, tx)
+	count, err := a.OriginName().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -641,11 +641,11 @@ func testOriginInvitationToOneRemoveOpOriginUsingOrigin(t *testing.T) {
 		t.Error("want no relationships remaining")
 	}
 
-	if a.R.Origin != nil {
+	if a.R.OriginName != nil {
 		t.Error("R struct entry should be nil")
 	}
 
-	if !queries.IsValuerNil(a.OriginName) {
+	if !queries.IsValuerNil(a.Origin) {
 		t.Error("foreign key value should be nil")
 	}
 
@@ -728,7 +728,7 @@ func testOriginInvitationsSelect(t *testing.T) {
 }
 
 var (
-	originInvitationDBTypes = map[string]string{`ID`: `bigint`, `OriginName`: `text`, `AccountID`: `bigint`, `AccountName`: `text`, `OwnerID`: `bigint`, `Ignored`: `boolean`, `CreatedAt`: `timestamp with time zone`, `UpdatedAt`: `timestamp with time zone`}
+	originInvitationDBTypes = map[string]string{`ID`: `bigint`, `Origin`: `text`, `AccountID`: `bigint`, `AccountName`: `text`, `OwnerID`: `bigint`, `Ignored`: `boolean`, `CreatedAt`: `timestamp with time zone`, `UpdatedAt`: `timestamp with time zone`}
 	_                       = bytes.MinRead
 )
 

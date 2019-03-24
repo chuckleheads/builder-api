@@ -51,7 +51,7 @@ CREATE FUNCTION next_id_v1(sequence_id regclass, OUT result bigint) RETURNS bigi
 
 CREATE TABLE origin_packages (
     id bigint DEFAULT next_id_v1('origin_package_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     name text,
     ident text,
     ident_array text[],
@@ -82,7 +82,7 @@ CREATE TABLE groups (
 
 CREATE TABLE group_projects (
     id bigint DEFAULT nextval('group_projects_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     project_name text,
     project_ident text,
     project_state text,
@@ -104,11 +104,11 @@ CREATE TABLE busy_workers (
 
 CREATE TABLE jobs (
     id bigint DEFAULT next_id_v1('job_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     job_state text DEFAULT 'Pending'::text,
     project_id bigint,
     project_name text,
-    project_owner_id bigint,
+    project_owner_id bigint NOT NULL,
     project_plan_path text,
     vcs text,
     vcs_arguments text[],
@@ -176,7 +176,7 @@ CREATE TABLE origin_channel_packages (
 
 CREATE TABLE origin_channels (
     id bigint DEFAULT next_id_v1('origin_channel_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     name text,
     created_at timestamp with time zone DEFAULT now(),
     updated_at timestamp with time zone DEFAULT now(),
@@ -202,7 +202,7 @@ CREATE TABLE origin_invitations (
     origin text,
     account_id bigint,
     account_name text,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     ignored boolean DEFAULT false,
     created_at timestamp with time zone DEFAULT now(),
     updated_at timestamp with time zone DEFAULT now()
@@ -229,7 +229,7 @@ CREATE VIEW origin_package_versions AS
 
 CREATE TABLE origin_private_encryption_keys (
     id bigint DEFAULT next_id_v1('origin_private_encryption_key_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     name text,
     revision text,
     full_name text,
@@ -256,7 +256,7 @@ CREATE TABLE origin_projects (
     package_name text,
     name text,
     plan_path text,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     vcs_type text,
     vcs_data text,
     created_at timestamp with time zone DEFAULT now(),
@@ -269,7 +269,7 @@ CREATE TABLE origin_projects (
 
 CREATE TABLE origin_public_encryption_keys (
     id bigint DEFAULT next_id_v1('origin_public_key_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     name text,
     revision text,
     full_name text,
@@ -281,7 +281,7 @@ CREATE TABLE origin_public_encryption_keys (
 
 CREATE TABLE origin_public_keys (
     id bigint DEFAULT next_id_v1('origin_public_key_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     name text,
     revision text,
     full_name text,
@@ -294,7 +294,7 @@ CREATE TABLE origin_public_keys (
 
 CREATE TABLE origin_secret_keys (
     id bigint DEFAULT next_id_v1('origin_secret_key_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     name text,
     revision text,
     full_name text,
@@ -306,7 +306,7 @@ CREATE TABLE origin_secret_keys (
 
 CREATE TABLE origin_secrets (
     id bigint DEFAULT next_id_v1('origin_secrets_id_seq'::regclass) NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     name text,
     value text,
     created_at timestamp with time zone DEFAULT now(),
@@ -316,7 +316,7 @@ CREATE TABLE origin_secrets (
 
 CREATE TABLE origins (
     name text NOT NULL,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     created_at timestamp with time zone DEFAULT now(),
     updated_at timestamp with time zone DEFAULT now(),
     default_package_visibility origin_package_visibility DEFAULT 'public'::origin_package_visibility NOT NULL
@@ -333,7 +333,7 @@ CREATE VIEW origins_with_secret_key AS
 
 CREATE TABLE origins_with_stats (
     name text,
-    owner_id bigint,
+    owner_id bigint NOT NULL,
     created_at timestamp with time zone,
     updated_at timestamp with time zone,
     default_package_visibility origin_package_visibility,
