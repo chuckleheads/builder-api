@@ -68,7 +68,7 @@ func setup() {
 		r.Mount("/profile", resources.ProfileResource{}.Routes())
 		r.Mount("/projects", resources.ProjectsResource{}.Routes())
 		r.Mount("/rdeps", resources.RdepsResource{}.Routes())
-		r.Mount("/user", resources.UserResource{}.Routes())
+		r.Mount("/user", resources.NewUserResource(db).Routes())
 	})
 
 	// walkFunc := func(method string, route string, handler http.Handler, middlewares ...func(http.Handler) http.Handler) error {
