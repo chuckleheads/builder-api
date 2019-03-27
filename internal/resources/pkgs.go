@@ -1,8 +1,13 @@
 package resources
 
 import (
+	"fmt"
 	"net/http"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/chuckleheads/habitat/components/core/ident"
 	"github.com/go-chi/chi"
 )
 
@@ -45,7 +50,35 @@ func (pr PkgsResource) listPackageVersions(w http.ResponseWriter, r *http.Reques
 func (pr PkgsResource) getPackagesForOriginPackageVersion(w http.ResponseWriter, r *http.Request) {}
 func (pr PkgsResource) getLatestPackageForOriginPackageVersion(w http.ResponseWriter, r *http.Request) {
 }
-func (pr PkgsResource) uploadPackage(w http.ResponseWriter, r *http.Request)           {}
+func (pr PkgsResource) uploadPackage(w http.ResponseWriter, r *http.Request) {
+	forcedParam := r.URL.Query().Get("forced")
+	isForced := false
+	if forcedParam != "" || forcedParam == "true" {
+		isForced = true
+	}
+	fmt.Println(isForced)
+	pkgIdent, err := ident.New(chi.URLParam(r, "origin"), chi.URLParam(r, "pkg"), chi.URLParam(r, "version"), chi.URLParam(r, "release"))
+	fmt.Println(pkgIdent)
+	if err != nil {
+		panic(err)
+	}
+	body, err := r.GetBody()
+	sess := session.Must(session.NewSession())
+
+	// Create an uploader with the session and default options
+	uploader := s3manager.NewUploader(sess)
+
+	// Upload the file to S3.
+	result, err := uploader.Upload(&s3manager.UploadInput{
+		Bucket: aws.String("poopy"),
+		Key:    aws.String("doodles"),
+		Body:   body,
+	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("file uploaded to, %s\n", aws.StringValue(&result.Location))
+}
 func (pr PkgsResource) getPackage(w http.ResponseWriter, r *http.Request)              {}
 func (pr PkgsResource) downloadPackage(w http.ResponseWriter, r *http.Request)         {}
 func (pr PkgsResource) getPackageChannels(w http.ResponseWriter, r *http.Request)      {}

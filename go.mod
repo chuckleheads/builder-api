@@ -4,6 +4,8 @@ go 1.12
 
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
+	github.com/aws/aws-sdk-go v1.19.2
+	github.com/chuckleheads/habitat v0.0.0-20190102223449-f95ee37936f4
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/ericlagergren/decimal v0.0.0-20190204014639-71cf34b7c2b5 // indirect
 	github.com/go-chi/chi v4.0.2+incompatible
@@ -11,7 +13,6 @@ require (
 	github.com/go-chi/render v1.0.1
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/golang/protobuf v1.2.0 // indirect
-	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/lib/pq v1.0.0
